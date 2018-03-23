@@ -1,9 +1,7 @@
 #!/usr/bin/python
 
 def printList(list) :
-	for elem in list:
-		print(elem,' ')
-	print()
+	print (list)
 
 
 def swap(list, A, B) :
