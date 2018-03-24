@@ -19,7 +19,10 @@ for i in range(10) :
 	print ("Sorted\n", l, "\n")
 '''
 
-l = [10, 3, 3, 5, 2, 3, 3, 1, 1, 9, 5]
+l = list(range(0, 20))
+random.shuffle(l)
+
 print ("Original\n", l, "\n")
 quick_sort(l)
 print ("Sorted\n", l, "\n")
+
