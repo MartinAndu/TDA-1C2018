@@ -6,10 +6,13 @@ from QuickSort import quickSort
 from HeapSort import heapSort
 from MergeSort import mergeSort
 
-from UtilSort import printList
 
-list = [26, 54, 93, 17, 77, 31, 44, 55, 20]
+import random
 
-printList(list)
-mergeSort(list)
-printList(list)
+for i in range(10) :
+	l = list(range(10))
+	random.shuffle(l)
+	ordenada = sorted(l)
+	print ("Original\n", l, "\n")
+	mergeSort(l)
+	print ("Sorted\n", l, "\n")

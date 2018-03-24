@@ -1,10 +1,6 @@
 #!/usr/bin/python
 
-def printList(list) :
-	print (list)
-
-
-def swap(list, A, B) :
-	C = list[A]
-	list[A] = list[B]
-	list[B] = C
+def swap(list_test, A, B) :
+	C = list_test[A]
+	list_test[A] = list_test[B]
+	list_test[B] = C
