@@ -9,7 +9,7 @@ def quick_sort(list_test) :
 # Ascending order algorithm
 def quick_sort_method(list_test, start, end) :
 	if ( start < end ):
-		newIndex = partition(list_test, 0, end)
+		newIndex = partition(list_test, start, end)
 		quick_sort_method(list_test, start, newIndex - 1)
 		quick_sort_method(list_test, newIndex + 1, end)
 
