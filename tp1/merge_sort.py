@@ -1,15 +1,14 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
-import sys
+def merge_sort(list_test) :
+    merge_sort_method(list_test,0 , len(list_test) - 1)
+    return list_test
 
-def mergeSort(list_test) :
-    mergesortMethod(list_test,0 , len(list_test) - 1)
-
-def mergesortMethod(list_test, start, end) :
+def merge_sort_method(list_test, start, end) :
     if start < end :
         middle = int(( start + end) / 2)
-        mergesortMethod(list_test, start, middle)
-        mergesortMethod(list_test, middle + 1, end)
+        merge_sort_method(list_test, start, middle)
+        merge_sort_method(list_test, middle + 1, end)
         merge(list_test, start, middle , end)
 
 
@@ -27,8 +26,8 @@ def merge(list_test, start, middle, end) :
     for y in range(0, number2):
         list_test_right[y] = list_test[ middle + y + 1]
 
-    list_test_left[number1] = sys.maxsize
-    list_test_right[number2] = sys.maxsize
+    list_test_left[number1] = float('inf')
+    list_test_right[number2] = float('inf')
     
     i = 0
     j = 0

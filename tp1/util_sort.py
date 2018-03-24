@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 def swap(list_test, A, B) :
 	C = list_test[A]
