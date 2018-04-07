@@ -30,11 +30,11 @@ a)
 
 | Algoritmo | Complejidad teórica( Promedio ) | Mejor caso  | Peor caso |
 | ----------|---------------------------------| ------------| -------- |
-| Selección | *$\Theta(n^2)$*        | *$\Theta(n^2)$* | *$\Theta(n^2)$* |
-| Inserción | *$\Theta(n^2)$*       |*$\Theta(n)$*| *$\Theta(n^2)$*|
-| Quicksort | *$\Theta(n \log n)$*   | *$\Theta(n)$* | *$\Theta(n^2)$* |
-| Heapsort  | *$\Theta(n \log n)$*  |*$\Theta(n)$*|*$\Theta(n \log n)$*|
-| Mergesort | *$\Theta(n \log n)$*  |*$\Theta(n)$*|*$\Theta(n \log n)$*|
+| Selección | *$O(n^2)$*        | *$O(n^2)$* | *$O(n^2)$* |
+| Inserción | *$O(n^2)$*       |*$O(n)$*| *$O(n^2)$*|
+| Quicksort | *$O(n \log n)$*   | *$O(n)$* | *$O(n^2)$* |
+| Heapsort  | *$O(n \log n)$*  |*$O(n)$*|*$O(n \log n)$*|
+| Mergesort | *$O(n \log n)$*  |*$O(n)$*|*$O(n \log n)$*|
 
 c) Tiempos de ejecución
 #### Set0
@@ -933,3 +933,22 @@ d)
 
 #### Gráfico para comparar todos los algoritmos con los tiempos medios (excepto heapsort e Inserción )
 ![alt text](https://github.com/MartinAndu/TDA1-1C2018/raw/master/tp1/todos_elementos_excepto_insertion_selection.png)
+
+E)
+**Selección:**
+En este algoritmo de ordenamiento no hay un set de datos que haga que se comporte de la peor manera posible ya que indistintamente de los datos el algoritmo hará la misma cantidad de comparaciones.
+
+**Inserción**
+El peor rendimiento de este algoritmo se dará en casos en los que los datos estén ordenados de manera inversa a lo que se quiere obtener. Por ejemplo si se quiere ordenar de menor a mayor los enteros del uno al diez. Para obtener el peor caso los datos deberían estar ordenados de esta mayor a menor [10, 9, 8, 7, 6, 5, 4, 3, 2, 1].
+
+##### Comparación caso promedio con peor caso
+![alt text](https://github.com/MartinAndu/TDA1-1C2018/raw/master/tp1/insertion_comparacion.png)
+
+**Quicksort**
+El algoritmo puede alcanzar el orden *$O(n^2)$* en algunos casos, siendo este el peor escenario posible. El caso se da cuando los pivotes elegidos son los menores o mayores elementos del arreglo en todas las iteraciones recursivas del arreglo. Por ejemplo si se quiere ordenar el arreglo ordenado *$[1,2,3,4,5]$* de menor a mayor y si toma el último elemento del arreglo como pivote en cada iteración. Lo que resulta en que se haga la mayor cantidad de comparaciones, alcanzando el orden cuadrático.
+
+##### Comparación caso promedio con peor caso
+![alt text](https://github.com/MartinAndu/TDA1-1C2018/raw/master/tp1/quicksort_comparacion.png)
+
+**Heapsort**
+En el heapsort no importa el orden en el que se encuentren los datos ya que se realizan la misma cantidad de comparaciones (aproximadas) en todos los arreglos indistintos del orden o desorden de los datos. En cualquier caso el heapsort mantiene el orden *$O(n \log n)$*.
