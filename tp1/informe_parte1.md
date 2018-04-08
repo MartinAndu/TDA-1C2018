@@ -248,13 +248,20 @@ $$ T(n) = T(\frac{n}{2}) + T(\frac{n}{2}) + a(n) $$ $$1 \le a(n) \le n-1$$
 
 Resolviendo la ecuacion de recurrencia usando $n=2^m$ en la ecuación $$T(n={2^m}) = 2T(2^{m-1}) + \alpha 2^{m}$$
 se tiene
-$$ T(2^m) = 2T(2^{m-1}) +  \alpha 2^{m} \Rightarrow \text{con } 2^0 T(2^{m}) + 2T(2^{m-1}) = \alpha $$
- $$2^{m}
-T(2^{m-1}) = 2T(2^{m-2}) +  \alpha 2^{m-1} \Rightarrow \text{con $2^1$} 2T(2^{m-1}) + 2^2T(2^{m-2}) = \alpha 2^{m}
+$$
+\begin{aligned}
+T(2^m) &= 2T(2^{m-1}) +  \alpha 2^{m}  \xrightarrow {\times 2^0} T(2^{m}) - 2T(2^{m-1}) &= \alpha2^{m} \\
+T(2^{m-1}) &= 2T(2^{m-2}) +  \alpha 2^{m-1} \xrightarrow{ \times 2^1} 2T(2^{m-1}) - 2^2T(2^{m-2}) &= \alpha 2^{m} \\
+T(2^{m-2}) &= 2T(2^{m-3}) +  \alpha 2^{m-1} \xrightarrow{ \times 2^2} 2^2T(2^{m-2}) - 2^3T(2^{m-3}) &= \alpha 2^{m} \\
+T(2^2) &= 2T(2^1) + \alpha 2^2 \xrightarrow{\times 2^{m-2}} 2^{m-2}T(2^2)- 2^{m-1}T(2^1) &= \alpha 2^m \\
+T(2^1) &= 2T(2^0) + \alpha 2^1 \xrightarrow{\times 2^{m-1}} 2^{m-1}T(2^1)- 2^{m}T(2^0) &= \alpha 2^m \\
+\end{aligned}
 $$.
-Se llega a $ T(2^{m}) = \alpha2^{m} m$
-
-Entonces, $T(n) \approx \alpha  n  \log(n)$
+$$
+\boxed{T(1) = 0} $$
+$$\boxed{T(2^{m}) = \alpha2^{m} m}
+ $$
+Entonces, $\boxed{T(n) \approx \alpha  n  \log(n)}$
 
 c) Tiempos de ejecución
 #### Set0
