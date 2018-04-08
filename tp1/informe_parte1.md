@@ -130,20 +130,20 @@ explicar este punto se utiliza la implementación recursiva
 
 ```
 def quick_sort_method(list_test, start, end) :
-	if ( start < end ):
-		newIndex = partition(list_test, start, end)
-		quick_sort_method(list_test, start, newIndex - 1)
-		quick_sort_method(list_test, newIndex + 1, end)
-		
+  if ( start < end ):
+    newIndex = partition(list_test, start, end)
+    quick_sort_method(list_test, start, newIndex - 1)
+    quick_sort_method(list_test, newIndex + 1, end)
+    
 def partition(list_test, start, end) :
-	pivot = list_test[end]
-	x = start - 1
-	for y in range(start, end):
-		if list_test[y] <= pivot:
-			x = x + 1
-			swap(list_test, x, y)
-	swap(list_test, x + 1, end)
-	return x + 1
+  pivot = list_test[end]
+  x = start - 1
+  for y in range(start, end):
+    if list_test[y] <= pivot:
+      x = x + 1
+      swap(list_test, x, y)
+  swap(list_test, x + 1, end)
+  return x + 1
 
 ```
 
@@ -151,10 +151,10 @@ def partition(list_test, start, end) :
 | Algoritmo | Complejidad | Tiempo de ejecucion
 |-----------|-------------|--------------------
 def quick_sort_method(list_test, start, end) :|| 
-	if ( start < end ):|| 
-		newIndex = partition(list_test, start, end)||n
-		quick_sort_method(list_test, start, newIndex - 1)|| i ( tiempo en ejecutar primer subarray)
-		quick_sort_method(list_test, newIndex + 1, end)||n - 1 - i ( tiempo en ejecutar último subarray)
+  if ( start < end ):|| 
+    newIndex = partition(list_test, start, end)||n
+    quick_sort_method(list_test, start, newIndex - 1)|| i ( tiempo en ejecutar primer subarray)
+    quick_sort_method(list_test, newIndex + 1, end)||n - 1 - i ( tiempo en ejecutar último subarray)
 
 Esto se traduce como 
 T(n) = c*n + T(i) + T(n -1 -i)
@@ -209,6 +209,35 @@ def heap_sort(list_test) :||
 En promedio se realiza en n iteraciones un max_heapify que lleva $$O(log n)$$, por lo tanto el costo temporal de este algoritmo en promedio es de O(n log n)
 
 Megesort
+```
+def merge_sort_method(list_test, start, end) :
+    if start < end :
+        middle = int(( start + end) / 2)
+        merge_sort_method(list_test, start, middle)
+        merge_sort_method(list_test, middle + 1, end)
+        merge(list_test, start, middle , end)
+```
+| Algoritmo |   Tiempo de ejecución
+|-----------|-------------------------
+def merge_sort_method(list_test, start, end) :||
+    if start < end :| n|
+        middle = int(( start + end) / 2)| n|
+        merge_sort_method(list_test, start, middle)|n/2|
+        merge_sort_method(list_test, middle + 1, end)|n/2|
+        merge(list_test, start, middle , end)|n|
+
+El número de comparaciones de una lista con tamaño n satisface la forma recurrente:
+T(n) = T($$\frac{n}{2}$$) + T($$\frac{n}{2}$$) + a(n); $$1<=a(n)<=n-1$$
+
+Resolviendo la ecuacion de recurrencia usando $$n=2^m$$ en la ecuacion $$T(n^{2m}) = 2T(2^{m-1}) + α 2^{m}$$
+se tiene
+T($$2^m$$) = 2T($$2^{m-1}$$) +  α 2^{m} -> con $$2^0$$ T($$2^{m}$$) + 2T($$2^{m-1}$$) = α $$2^{m}$$
+T($$2^{m-1}$$) = 2T($$2^{m-2}$$) +  α 2^{m-1} -> con $$2^1$$ 2T($$2^{m-1}$$) + $$2^2$$T($$2^{m-2}$$) = α $$2^{m}$$
+.
+.
+Se llega a T($$2^{m}$$) = α $$2^{m}$$ * m
+
+Entonces $$T(n) \approx α * n * log(n)$$
 
 c) Tiempos de ejecución
 #### Set0
