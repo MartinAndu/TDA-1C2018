@@ -53,33 +53,29 @@ def selection_sort(list_test) :
     return list_test
 
 ```
-| Algoritmo | Complejidad | Cantidad de veces ejecutadas 
+| Algoritmo | Complejidad | Cantidad de veces ejecutadas
 | ----------|---------------------------------|---
 |     for x in range(len(list_test) - 1, 1, -1):| C1 | n
 |        pos_of_max = 0 |C2 | n-1|
 |        for y in range(x, len(list_test)): |C3|
 |            if list_test[y] > list_test[pos_of_max]: |(*)C3| n(n+1)/2|
-|                pos_of_max = y|C3 | 
+|                pos_of_max = y|C3 |
 |        swap(list_test, x, pos_of_max)|C4|(n-1) * 3 (porque son 3 lineas)|
 |    return list_test||
 
 (*) Se llega al C3 porque se ejecuta de la siguiente manera:
-  Primer loop : 2 --(hasta)--> n
-  Segundo loop : 3 --> n - 1
-  Tercer loop : 4--> n -2
-  Ultimo loop : n-1 --> 1
+  Primer loop : $ 2 \xrightarrow{hasta} n$
+  Segundo loop : $ 3 \xrightarrow{} n - 1$
+  Tercer loop : $ 4 \xrightarrow{} n -2 $
+  Ultimo loop : $ n-1 \xrightarrow{} 1 $
   Sumando todo da
-  n + (n-1) + .... + 1 = n * $$(\frac{n + 1}{2})$$
+  $$ n + (n-1) + .... + 1 = n (\frac{n + 1}{2})$$
 
 *Tiempo Total*
 $$\begin{aligned}
-T(n) = C1 * n + C2 * (n-1) + C3 * (\frac{n*(n+1)}{2}) + C4 * (n-1) * 3  = 
-\end{aligned}$$
-$$\begin{aligned}
-C3 * \frac{n^2}{2} + (C1 + C2 + \frac{C3}{2} + C4 * 3) * n + (-C2 - C4 * 3) =
-\end{aligned}$$
-$$\begin{aligned}
-a^2 + b * n + c = O(n^2)
+T(n) &= C1 \times n + C2 \times (n-1) + C3 \times (\frac{n(n+1)}{2}) + C4 \times (n-1) \times 3 \\
+&= C3 \times \frac{n^2}{2} + (C1 + C2 + \frac{C3}{2} + C4 \times 3) \times n + (-C2 - C4 \times 3) \\
+ &= a^2 + b * n + c = O(n^2)
 \end{aligned}$$
 
 Inserción
@@ -98,34 +94,41 @@ def insertion_sort(list_test) :
     return list_test
 ```
 
-| Algoritmo | Complejidad | Cantidad de veces ejecutadas 
+| Algoritmo | Complejidad | Cantidad de veces ejecutadas
 | ----------|---------------------------------|---
 |def insertion_sort(list_test) :|  | |
-|    for y in range(1, len(list_test)) :|C1| n
-|        key = list_test[y]|C2| n - 1
-|        x = y - 1|C3| n - 1
-|        while x > 0 and list_test[ x ] > key :|C4| (*) $$\sum_{x=1}^{n} t_j$$
-|            list_test[x + 1] = list_test[x]|C5| $$\sum_{x=1}^{n} (t_j - 1)$$
-|            x = x - 1|C6| $$\sum_{x=1}^{n} (t_j - 1)$$
-|        list_test[x + 1] = key|C7| n - 1
+|    for y in range(1, len(list_test)) :|C1| $n$
+|        key = list_test[y]|C2| $n - 1$
+|        x = y - 1|C3| $n - 1$
+|        while x > 0 and list_test[ x ] > key :|C4| (*) $\sum_{x=1}^{n} t_j$
+|            list_test[x + 1] = list_test[x]|C5| $\sum_{x=1}^{n} (t_j - 1)$
+|            x = x - 1|C6| $\sum_{x=1}^{n} (t_j - 1)$
+|        list_test[x + 1] = key|C7| $ n - 1 $
 |    return list_test||
 
 (*) Número de veces que se ejecuta el while para un valor de j
 
-T(n) = C1 * n + C2 * (n - 1) + C3 * (n - 1) + C4 * $$\sum_{x=1}^{n} (t_j)$$ + C5 * $$\sum_{x=1}^{n} (t_j - 1)$$ + C6 * $$\sum_{x=1}^{n} (t_j - 1)$$ + C7 * (n - 1) = 
+$$
+\begin{aligned}
+T(n) &= C1  n + C2  (n - 1) + C3  (n - 1) + C4 \sum_{j=1}^{n} (t_j) + C5 \sum_{j=1}^{n} (t_j - 1) + C6 \sum_{j=1}^{n} (t_j - 1) + C7 (n - 1) \\
+\sum_{j=1}^{n} (t_j - 1) &= 1 + 2 + ... + n - 1 + n = \frac{n(n-1)}{2} \\
+\sum_{x=1}^{n} (t_j) &= \frac{n(n-1)}{2} - 1
+\end{aligned} $$
 
 Sabiendo
-$$\sum_{x=1}^{n} (t_j - 1)$$ = 1 + 2 + ... + n - 1 + n = $$\frac{n*(n-1)}{2}$$
-$$\sum_{x=1}^{n} (t_j)$$ = $$\frac{n*(n-1)}{2}$$ - 1
 
 Entonces :
-= C1 * n + C2 * (n - 1) + C3 * (n - 1) + C4 * ($$\frac{n*(n-1)}{2}$$ - 1) + C5 * $$\frac{n*(n-1)}{2}$$ + C6 * $$\frac{n*(n-1)}{2}$$ + C7 *(n - 1)  ( $$\frac{C4}{2}$$ + $$\frac{C5}{2}$$ + $$\frac{C6}{2}$$) * $$n^2$$ + (C1 + C2 + C3 - $$\frac{C4}{2}$$ - $$\frac{C5}{2}$$ - $$\frac{C6}{2}$$ + C7) * n - (C2 + C3 + C4 + C5 + C6 + C7) 
-= a * $$n^2$$ + b * n + c = O($$n^2$$) 
-
+$$
+\begin{aligned}
+&= C1 n + C2 (n - 1) + C3 (n - 1) + C4(\frac{n(n-1)}{2} - 1) + C5 \frac{n(n-1)}{2} + C6 \frac{n(n-1)}{2} + C7 (n - 1) \\
+&=  ( \frac{C4}{2} + \frac{C5}{2} + \frac{C6}{2}) n^2 + (C1 + C2 + C3 - \frac{C4}{2} - \frac{C5}{2} - \frac{C6}{2} + C7)  n - (C2 + C3 + C4 + C5 + C6 + C7) \\
+&= a n^2 + bn + c = O(n^2)
+\end{aligned}
+$$
 Quicksort
 
 Implementacion recursiva:
-Nota: en el trabajo se utilizó una implementación iterativa pero para 
+Nota: en el trabajo se utilizó una implementación iterativa pero para
 explicar este punto se utiliza la implementación recursiva
 
 ```
@@ -134,7 +137,7 @@ def quick_sort_method(list_test, start, end) :
     newIndex = partition(list_test, start, end)
     quick_sort_method(list_test, start, newIndex - 1)
     quick_sort_method(list_test, newIndex + 1, end)
-    
+
 def partition(list_test, start, end) :
   pivot = list_test[end]
   x = start - 1
@@ -150,41 +153,55 @@ def partition(list_test, start, end) :
 
 | Algoritmo | Complejidad | Tiempo de ejecucion
 |-----------|-------------|--------------------
-def quick_sort_method(list_test, start, end) :|| 
-  if ( start < end ):|| 
+def quick_sort_method(list_test, start, end) :||
+  if ( start < end ):||
     newIndex = partition(list_test, start, end)||n
     quick_sort_method(list_test, start, newIndex - 1)|| i ( tiempo en ejecutar primer subarray)
     quick_sort_method(list_test, newIndex + 1, end)||n - 1 - i ( tiempo en ejecutar último subarray)
 
-Esto se traduce como 
-T(n) = c*n + T(i) + T(n -1 -i)
+Esto se traduce como
+$$ T(n) = cn + T(i) + T(n -1 -i) $$
 
 Para el caso promedio de todas las posibles particiones se escribe como:
-T(n) = $$\frac{1}{n}$$ * $$\sum_{i=0}^{n-1} (T(i) + T(n - i - 1 ) + c*n)$$
-= $$\frac{2}{n}$$* (T(0) + T(1) + ... + T(n-2) + T(n-1)) + c*n 
-ó bien,
-n * T(n) = 2* (T(0) + T(1) + ... + T(n-2) + T(n-1)) + $$n^2$$=
-(n-1) T(n-1) = 2* (T(0) + T(1) + ... + T(n-2)) + $$c(n-1)^2$$
+$$ \begin{aligned}
+T(n) &= \frac{1}{n} \sum_{i=0}^{n-1} (T(i) + T(n - i - 1 ) + cn) \\
+&= \frac{2}{n}[T(0) + T(1) + \dots + T(n-2) + T(n-1)] + cn
+\end{aligned} $$
+o bien,
+$$ \begin{aligned}
+n T(n) &= 2(T(0) + T(1) + \dots + T(n-2) + T(n-1)) + n^2 \\
+(n-1) T(n-1) &= 2 (T(0) + T(1) + ... + T(n-2)) + c(n-1)^2
+\end{aligned} $$
+-
+$$ \begin{aligned}
+n(T(n)) - (n-1) T(n-1) &= 2T(n-1) + 2cn - c \approx 2T(n-1) + 2cn \\
+nT(n) - (n-1)T(n-1) &= 2T(n-1) + 2cn
+\end{aligned} $$
+o bien,
+$$
+\begin{aligned}
+\frac{T(n)}{n+1} &= \frac{T(n-1)}{n} + \frac{2c}{n+1}
+\end{aligned}
+$$
 
-n(T(n)) - (n-1)* T(n-1) = 2T(n-1) + 2cn - c $$\approx$$ 2T(n-1) + 2cn
-nT(n) - (n-1)*T(n-1) = 2T(n-1) + 2cn
-ó bien,
-$$\frac{T(n)}{n+1}$$=$$\frac{T(n-1)}{n}$$ + $$\frac{2c}{n+1}$$ 
+Aplicando un telescopeo a  $\frac{T(n)}{n+1}$: $$\frac{2c}{n+1} = \frac{T(n-1)}{n}$$
+y se obtiene la forma explícita:
 
-Aplicando un telescopeo a  $$\frac{T(n)}{n+1}$$ - $$\frac{2c}{n+1}$$=$$\frac{T(n-1)}{n}$$ y se obtiene la forma explícita:
-
-$$\frac{T(n)}{n+1}$$ + $$\frac{T(n-1)}{n}$$ + $$\frac{T(n-2)}{n-1}$$ +  + ... + $$\frac{T(2)}{3}$$ + $$\frac{T(1)}{2}$$ - $$\frac{T(n-1)}{n}$$ - $$\frac{T(n-2)}{n-1}$$ - ... - $$\frac{T(2)}{3}$$ - $$\frac{T(1)}{2}$$ - $$\frac{T(0)}{1}$$ = $$\frac{2c}{n+1}$$  + $$\frac{2c}{n}$$ + ... + $$\frac{2c}{3}$$ + $$\frac{2c}{2}$$
+$$
+\frac{T(n)}{n+1} + \frac{T(n-1)}{n} + \frac{T(n-2)}{n-1} + \dots + \frac{T(2)}{3} + \frac{T(1)}{2} - \frac{T(n-1)}{n} - \frac{T(n-2)}{n-1} - \dots - \frac{T(2)}{3} - \frac{T(1)}{2} - \frac{T(0)}{1} = $$
+$$\frac{2c}{n+1}  + \frac{2c}{n} + \dots + \frac{2c}{3} + \frac{2c}{2} $$
 
 Finalmente
-$$\frac{T(n)}{n+1}$$ = $$\frac{T(n)}{2}$$ + 2c * $$\sum_{i=3}^{n+1} (\frac{1}{j})$$
+$$\frac{T(n)}{n+1} = \frac{T(n)}{2} + 2c\sum_{j=3}^{n+1} (\frac{1}{j})$$
 
-Como n se hace muy grande, $$\sum_{i=3}^{n+1} (\frac{1}{j})$$ se aproxima a $$ln(n)$$ + γ donde γ es la constante de Euler 0,577...
+Como $n$ se hace muy grande,
+$\sum_{i=3}^{n+1} (\frac{1}{j})$ se aproxima a $ln(n) + \gamma$ donde $\gamma$ es la constante de Euler $\approx 0,577\dots$
 
 Por lo tanto
-$$\frac{T(n)}{n+1}$$ = $$\frac{T(1)}{2}$$ + 2c * $$ln(n)$$ + 2c * γ = $$ln(n)$$ + c2 = O($$ln(n)$$)
+$$\frac{T(n)}{n+1} = \frac{T(1)}{2} + 2c \ln(n) + 2c\gamma = \ln(n) + c2 = O(\ln(n))$$
 
 Finalmente entonces
-T(n) = O(n * log(n))
+$$T(n) = O(n \log(n))$$
 
 Heapsort
 ```
@@ -196,17 +213,17 @@ def heap_sort(list_test) :
     heap_size = heap_size - 1
     max_heapify(list_test, heap_size, 0)
 ```
-| Algoritmo |   Tiempo de ejecución
-|-----------|-------------------------
-def heap_sort(list_test) :||
-  heap_size = len(list_test) - 1|1|
-  build_heap(list_test, heap_size)| n ( por definicion)
-  for x in range(len(list_test) - 1, 0, -1) :| 
-    swap(list_test, 0, x)| n * 3
-    heap_size = heap_size - 1|n
-    max_heapify(list_test, heap_size, 0)|O($$nlogn$$) (por definicion)|
+| Algoritmo |   Tiempo de ejecución   |
+|-----------|-------------------------|
+|def heap_sort(list_test) :||
+|  heap_size = len(list_test) - 1|$1$|
+|  build_heap(list_test, heap_size)| $n$ ( por definicion)
+|  for x in range(len(list_test) - 1, 0, -1) |
+|  swap(list_test, 0, x) | $3n$
+|    heap_size = heap_size - 1|$n$
+|    max_heapify(list_test, heap_size, 0)| $O(n \log n)$ (por definicion)|
 
-En promedio se realiza en n iteraciones un max_heapify que lleva $$O(log n)$$, por lo tanto el costo temporal de este algoritmo en promedio es de O(n log n)
+En promedio se realiza en $n$ iteraciones un max_heapify que lleva $O(\log n)$, por lo tanto el costo temporal de este algoritmo en promedio es de O$(n \log n)$
 
 Megesort
 ```
@@ -220,24 +237,24 @@ def merge_sort_method(list_test, start, end) :
 | Algoritmo |   Tiempo de ejecución
 |-----------|-------------------------
 def merge_sort_method(list_test, start, end) :||
-    if start < end :| n|
-        middle = int(( start + end) / 2)| n|
-        merge_sort_method(list_test, start, middle)|n/2|
-        merge_sort_method(list_test, middle + 1, end)|n/2|
-        merge(list_test, start, middle , end)|n|
+|    if start < end :| $n$|
+|        middle = int(( start + end) / 2)| $n$|
+|        merge_sort_method(list_test, start, middle)|$n/2$|
+|        merge_sort_method(list_test, middle + 1, end)|$n/2$|
+|        merge(list_test, start, middle , end)|$n$|
 
-El número de comparaciones de una lista con tamaño n satisface la forma recurrente:
-T(n) = T($$\frac{n}{2}$$) + T($$\frac{n}{2}$$) + a(n); $$1<=a(n)<=n-1$$
+El número de comparaciones de una lista con tamaño $n$ satisface la forma recurrente:
+$$ T(n) = T(\frac{n}{2}) + T(\frac{n}{2}) + a(n) $$ $$1 \le a(n) \le n-1$$
 
-Resolviendo la ecuacion de recurrencia usando $$n=2^m$$ en la ecuacion $$T(n^{2m}) = 2T(2^{m-1}) + α 2^{m}$$
+Resolviendo la ecuacion de recurrencia usando $n=2^m$ en la ecuación $$T(n={2^m}) = 2T(2^{m-1}) + \alpha 2^{m}$$
 se tiene
-T($$2^m$$) = 2T($$2^{m-1}$$) +  α 2^{m} -> con $$2^0$$ T($$2^{m}$$) + 2T($$2^{m-1}$$) = α $$2^{m}$$
-T($$2^{m-1}$$) = 2T($$2^{m-2}$$) +  α 2^{m-1} -> con $$2^1$$ 2T($$2^{m-1}$$) + $$2^2$$T($$2^{m-2}$$) = α $$2^{m}$$
-.
-.
-Se llega a T($$2^{m}$$) = α $$2^{m}$$ * m
+$$ T(2^m) = 2T(2^{m-1}) +  \alpha 2^{m} \Rightarrow \text{con } 2^0 T(2^{m}) + 2T(2^{m-1}) = \alpha $$
+ $$2^{m}
+T(2^{m-1}) = 2T(2^{m-2}) +  \alpha 2^{m-1} \Rightarrow \text{con $2^1$} 2T(2^{m-1}) + 2^2T(2^{m-2}) = \alpha 2^{m}
+$$.
+Se llega a $ T(2^{m}) = \alpha2^{m} m$
 
-Entonces $$T(n) \approx α * n * log(n)$$
+Entonces, $T(n) \approx \alpha  n  \log(n)$
 
 c) Tiempos de ejecución
 #### Set0
