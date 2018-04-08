@@ -36,6 +36,180 @@ a)
 | Heapsort  | *$O(n \log n)$*  |*$O(n)$*|*$O(n \log n)$*|
 | Mergesort | *$O(n \log n)$*  |*$O(n)$*|*$O(n \log n)$*|
 
+*Demostraciones*
+
+Seleccion
+
+Dado nuestro código utilizado
+
+```
+def selection_sort(list_test) :
+    for x in range(len(list_test) - 1, 1, -1):
+        pos_of_max = 0
+        for y in range(x, len(list_test)):
+            if list_test[y] > list_test[pos_of_max]:
+                pos_of_max = y
+        swap(list_test, x, pos_of_max)
+    return list_test
+
+```
+| Algoritmo | Complejidad | Cantidad de veces ejecutadas 
+| ----------|---------------------------------|---
+|     for x in range(len(list_test) - 1, 1, -1):| C1 | n
+|        pos_of_max = 0 |C2 | n-1|
+|        for y in range(x, len(list_test)): |C3|
+|            if list_test[y] > list_test[pos_of_max]: |(*)C3| n(n+1)/2|
+|                pos_of_max = y|C3 | 
+|        swap(list_test, x, pos_of_max)|C4|(n-1) * 3 (porque son 3 lineas)|
+|    return list_test||
+
+(*) Se llega al C3 porque se ejecuta de la siguiente manera:
+  Primer loop : 2 --(hasta)--> n
+  Segundo loop : 3 --> n - 1
+  Tercer loop : 4--> n -2
+  Ultimo loop : n-1 --> 1
+  Sumando todo da
+  n + (n-1) + .... + 1 = n * $$(\frac{n + 1}{2})$$
+
+*Tiempo Total*
+$$\begin{aligned}
+T(n) = C1 * n + C2 * (n-1) + C3 * (\frac{n*(n+1)}{2}) + C4 * (n-1) * 3  = 
+\end{aligned}$$
+$$\begin{aligned}
+C3 * \frac{n^2}{2} + (C1 + C2 + \frac{C3}{2} + C4 * 3) * n + (-C2 - C4 * 3) =
+\end{aligned}$$
+$$\begin{aligned}
+a^2 + b * n + c = O(n^2)
+\end{aligned}$$
+
+Inserción
+
+Dado nuestro código utilizado
+
+```
+def insertion_sort(list_test) :
+    for y in range(1, len(list_test)) :
+        key = list_test[y]
+        x = y - 1
+        while x > 0 and list_test[x] > key :
+            list_test[x + 1] = list_test[x]
+            x = x - 1
+        list_test[x + 1] = key
+    return list_test
+```
+
+| Algoritmo | Complejidad | Cantidad de veces ejecutadas 
+| ----------|---------------------------------|---
+|def insertion_sort(list_test) :|  | |
+|    for y in range(1, len(list_test)) :|C1| n
+|        key = list_test[y]|C2| n - 1
+|        x = y - 1|C3| n - 1
+|        while x > 0 and list_test[ x ] > key :|C4| (*) $$\sum_{x=1}^{n} t_j$$
+|            list_test[x + 1] = list_test[x]|C5| $$\sum_{x=1}^{n} (t_j - 1)$$
+|            x = x - 1|C6| $$\sum_{x=1}^{n} (t_j - 1)$$
+|        list_test[x + 1] = key|C7| n - 1
+|    return list_test||
+
+(*) Número de veces que se ejecuta el while para un valor de j
+
+T(n) = C1 * n + C2 * (n - 1) + C3 * (n - 1) + C4 * $$\sum_{x=1}^{n} (t_j)$$ + C5 * $$\sum_{x=1}^{n} (t_j - 1)$$ + C6 * $$\sum_{x=1}^{n} (t_j - 1)$$ + C7 * (n - 1) = 
+
+Sabiendo
+$$\sum_{x=1}^{n} (t_j - 1)$$ = 1 + 2 + ... + n - 1 + n = $$\frac{n*(n-1)}{2}$$
+$$\sum_{x=1}^{n} (t_j)$$ = $$\frac{n*(n-1)}{2}$$ - 1
+
+Entonces :
+= C1 * n + C2 * (n - 1) + C3 * (n - 1) + C4 * ($$\frac{n*(n-1)}{2}$$ - 1) + C5 * $$\frac{n*(n-1)}{2}$$ + C6 * $$\frac{n*(n-1)}{2}$$ + C7 *(n - 1)  ( $$\frac{C4}{2}$$ + $$\frac{C5}{2}$$ + $$\frac{C6}{2}$$) * $$n^2$$ + (C1 + C2 + C3 - $$\frac{C4}{2}$$ - $$\frac{C5}{2}$$ - $$\frac{C6}{2}$$ + C7) * n - (C2 + C3 + C4 + C5 + C6 + C7) 
+= a * $$n^2$$ + b * n + c = O($$n^2$$) 
+
+Quicksort
+
+Implementacion recursiva:
+Nota: en el trabajo se utilizó una implementación iterativa pero para 
+explicar este punto se utiliza la implementación recursiva
+
+```
+def quick_sort_method(list_test, start, end) :
+	if ( start < end ):
+		newIndex = partition(list_test, start, end)
+		quick_sort_method(list_test, start, newIndex - 1)
+		quick_sort_method(list_test, newIndex + 1, end)
+		
+def partition(list_test, start, end) :
+	pivot = list_test[end]
+	x = start - 1
+	for y in range(start, end):
+		if list_test[y] <= pivot:
+			x = x + 1
+			swap(list_test, x, y)
+	swap(list_test, x + 1, end)
+	return x + 1
+
+```
+
+
+| Algoritmo | Complejidad | Tiempo de ejecucion
+|-----------|-------------|--------------------
+def quick_sort_method(list_test, start, end) :|| 
+	if ( start < end ):|| 
+		newIndex = partition(list_test, start, end)||n
+		quick_sort_method(list_test, start, newIndex - 1)|| i ( tiempo en ejecutar primer subarray)
+		quick_sort_method(list_test, newIndex + 1, end)||n - 1 - i ( tiempo en ejecutar último subarray)
+
+Esto se traduce como 
+T(n) = c*n + T(i) + T(n -1 -i)
+
+Para el caso promedio de todas las posibles particiones se escribe como:
+T(n) = $$\frac{1}{n}$$ * $$\sum_{i=0}^{n-1} (T(i) + T(n - i - 1 ) + c*n)$$
+= $$\frac{2}{n}$$* (T(0) + T(1) + ... + T(n-2) + T(n-1)) + c*n 
+ó bien,
+n * T(n) = 2* (T(0) + T(1) + ... + T(n-2) + T(n-1)) + $$n^2$$=
+(n-1) T(n-1) = 2* (T(0) + T(1) + ... + T(n-2)) + $$c(n-1)^2$$
+
+n(T(n)) - (n-1)* T(n-1) = 2T(n-1) + 2cn - c $$\approx$$ 2T(n-1) + 2cn
+nT(n) - (n-1)*T(n-1) = 2T(n-1) + 2cn
+ó bien,
+$$\frac{T(n)}{n+1}$$=$$\frac{T(n-1)}{n}$$ + $$\frac{2c}{n+1}$$ 
+
+Aplicando un telescopeo a  $$\frac{T(n)}{n+1}$$ - $$\frac{2c}{n+1}$$=$$\frac{T(n-1)}{n}$$ y se obtiene la forma explícita:
+
+$$\frac{T(n)}{n+1}$$ + $$\frac{T(n-1)}{n}$$ + $$\frac{T(n-2)}{n-1}$$ +  + ... + $$\frac{T(2)}{3}$$ + $$\frac{T(1)}{2}$$ - $$\frac{T(n-1)}{n}$$ - $$\frac{T(n-2)}{n-1}$$ - ... - $$\frac{T(2)}{3}$$ - $$\frac{T(1)}{2}$$ - $$\frac{T(0)}{1}$$ = $$\frac{2c}{n+1}$$  + $$\frac{2c}{n}$$ + ... + $$\frac{2c}{3}$$ + $$\frac{2c}{2}$$
+
+Finalmente
+$$\frac{T(n)}{n+1}$$ = $$\frac{T(n)}{2}$$ + 2c * $$\sum_{i=3}^{n+1} (\frac{1}{j})$$
+
+Como n se hace muy grande, $$\sum_{i=3}^{n+1} (\frac{1}{j})$$ se aproxima a $$ln(n)$$ + γ donde γ es la constante de Euler 0,577...
+
+Por lo tanto
+$$\frac{T(n)}{n+1}$$ = $$\frac{T(1)}{2}$$ + 2c * $$ln(n)$$ + 2c * γ = $$ln(n)$$ + c2 = O($$ln(n)$$)
+
+Finalmente entonces
+T(n) = O(n * log(n))
+
+Heapsort
+```
+def heap_sort(list_test) :
+  heap_size = len(list_test) - 1
+  build_heap(list_test, heap_size)
+  for x in range(len(list_test) - 1, 0, -1) :
+    swap(list_test, 0, x)
+    heap_size = heap_size - 1
+    max_heapify(list_test, heap_size, 0)
+```
+| Algoritmo |   Tiempo de ejecución
+|-----------|-------------------------
+def heap_sort(list_test) :||
+  heap_size = len(list_test) - 1|1|
+  build_heap(list_test, heap_size)| n ( por definicion)
+  for x in range(len(list_test) - 1, 0, -1) :| 
+    swap(list_test, 0, x)| n * 3
+    heap_size = heap_size - 1|n
+    max_heapify(list_test, heap_size, 0)|O($$nlogn$$) (por definicion)|
+
+En promedio se realiza en n iteraciones un max_heapify que lleva $$O(log n)$$, por lo tanto el costo temporal de este algoritmo en promedio es de O(n log n)
+
+Megesort
+
 c) Tiempos de ejecución
 #### Set0
 **Cantidad de elementos: 50**
