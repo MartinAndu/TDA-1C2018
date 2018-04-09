@@ -57,7 +57,7 @@ def selection_sort(list_test) :
 ```
 
 | Algoritmo | Complejidad | Ejecuciones
-| ----------|---------------------------------|---
+|-----|-----|-----
 |     for x in range(len(list_test) - 1, 1, -1):| C1 | n
 |        pos_of_max = 0 |C2 | n-1|
 |        for y in range(x, len(list_test)): |C3|
@@ -99,7 +99,7 @@ def insertion_sort(list_test) :
 ```
 
 | Algoritmo | Complejidad | Ejecuciones
-| ----------|---------------------------------|---
+|-----|-----|-----
 |def insertion_sort(list_test) :|  | |
 |    for y in range(1, len(list_test)) :|C1| $n$
 |        key = list_test[y]|C2| $n - 1$
@@ -156,13 +156,13 @@ def partition(list_test, start, end) :
 ```
 
 
-| Algoritmo | Complejidad | Tiempo de ejecucion
-|-----------|-------------|--------------------
-def quick_sort_method(list_test, start, end) :||
-  if ( start < end ):||
-    newIndex = partition(list_test, start, end)||n
-    quick_sort_method(list_test, start, newIndex - 1)|| i ( tiempo en ejecutar primer subarray)
-    quick_sort_method(list_test, newIndex + 1, end)||n - 1 - i ( tiempo en ejecutar último subarray)
+| Algoritmo | Tiempo de ejecucion
+|-----|-----
+|def quick_sort_method(list_test, start, end) :||
+|  if ( start < end ):||
+|    newIndex = partition(list_test, start, end)|n|
+|    quick_sort_method(list_test, start, newIndex - 1)|i [tiempo en ejecutar primer subarray]| 
+|    quick_sort_method(list_test, newIndex + 1, end)|n - 1 - i [tiempo en ejecutar último subarray]|
 
 Esto se traduce como
 $$ T(n) = cn + T(i) + T(n -1 -i) $$
@@ -406,6 +406,16 @@ El algoritmo puede alcanzar el orden *$O(n^2)$* en algunos casos, siendo este el
 
 **Heapsort**
 En el heapsort no importa el orden en el que se encuentren los datos ya que se realizan la misma cantidad de comparaciones (aproximadas) en todos los arreglos indistintos del orden o desorden de los datos. En cualquier caso el heapsort mantiene el orden *$O(n \log n)$*.
+
+![](images/heapsort_comparacion.png)
+
+**Mergesort**
+En el mergesort la manera en el que se encuentran los datos ordenados no afecta el orden de operaciones que sigue siendo O(n log n) aun para el peor escenario posible.
+
+![](images/mergesort_comparacion.png)
+
+
+
 
 ### G)
 * En los casos de SelectionSort e InsertionSort se puede ver que no hay demasiada diferencia con los tiempos medios de estos algoritmos con un sets de datos al azar, puesto que deben recorrer ciclos completos y hacer comparaciones, lo que no cambia mucho utilizarsets de datos considerados desfavorables.
