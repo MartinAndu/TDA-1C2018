@@ -1,8 +1,9 @@
-## TP 1
+
+# Instalación
 
 Para este tp se usó python 3.5
 
-### Parte 1: Cálculo empírico de tiempos de ejecución
+## Parte 1: Cálculo empírico de tiempos de ejecución
 
 Para la primera parte es necesario instalar jupyter y matplotlib:
 
@@ -11,6 +12,7 @@ pip install jupyter matplotlib
 ```
 
 Luego se debe ejecutar el siguiente comando para poder comenzar con las pruebas
+
 ```bash
 jupyter notebook
 ```
@@ -19,14 +21,16 @@ Se debe dirigiar hacia la carpeta tp1/tp1_1.ipynb y hay que ejecutar todas las
 celdas del notebook desde el principio hasta el final
 
 Seleccionar consecutivamente en cada celda
-![alt text](https://github.com/MartinAndu/TDA1-1C2018/raw/master/tp1/tp1-notebook.png)
+
+![](tp1-notebook.png)
 
 Cuando aparece un [*] significa que se debe esperar a que termine la ejecución para poder
 seguir ejecutando las otras celdas
-![alt text](https://github.com/MartinAndu/TDA1-1C2018/raw/master/tp1/tp1-notebook-loading.png)
+
+![](tp1-notebook-loading.png)
 
 
-### Parte 2: Variante del algoritmo Gale-Shapley
+## Parte 2: Variante del algoritmo Gale-Shapley
 
 Para la segunda parte, jupyter es opcional. Sirve para ejecutar el código interactivamente y ver la salida.
 

@@ -1,7 +1,8 @@
+\newpage
 
-## Parte 2: Variante del algoritmo Gale-Shapley
+# Parte 2: Variante del algoritmo Gale-Shapley
 
-### Consigna
+## Consigna
 
 Una liga amateur de Basketball tiene una manera extraña de iniciar la temporada. Un draft se realiza entre 200 jugadores anotados entre los 20 equipos que participaran. Tanto los jugadores como los equipos tienen una lista de preferencia donde establecen en orden decreciente sus elecciones. Cada listado es completo (tienen a todos los jugadores/equipos) y sin empates de preferencia. Se pretende construir un matching estable que termine con 20 equipos de 10 jugadores cada uno.
 
@@ -11,7 +12,7 @@ b) Probar que el mismo terminará en tiempo polinómico y siempre entregará un 
 
 c) Ejecutar el algoritmo utilizando un set construido especialmente para el caso.
 
-### Solución
+## Solución
 
 Algoritmo de matching de Gale-Shapley devuelve un matching perfecto y estable entre dos conjuntos del mismo tamaño, y termina en tiempo polinómico ($O(n^2)$). El hecho de que sea perfecto nos asegura que no va a haber un elemento de cualquier conjunto sin matchear, y el hecho de que sea estable nos asegura de que en el matching resultante no haya ningún par, en el que un elemento prefiera una pareja de otro par, qué a su vez lo prefiere a él. El problema es que no es directamente aplicable, dado que la cantidad de jugadores y equipos no es la misma.
 
@@ -42,3 +43,4 @@ Supongamos que tal par existe. Eso significa en nuestra solución, que la últim
 Otra solución posible e incluso mejor (más eficiente) a este trabajo práctico es modificando el
 algoritmo de Gale-Shapley para que se pueda matchear más de un elemento de un set al otro set (parecido a la solución del problema de hospitales y estudiantes). El orden de esa solución debería ser de *O(nm)*, donde n es la cantidad de jugadores y m es la cantidad de equipos.
 
+\newpage
