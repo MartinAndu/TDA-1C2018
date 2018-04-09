@@ -22,12 +22,12 @@ celdas del notebook desde el principio hasta el final
 
 Seleccionar consecutivamente en cada celda
 
-![](tp1-notebook.png)
+![](images/tp1-notebook.png)
 
 Cuando aparece un [*] significa que se debe esperar a que termine la ejecución para poder
 seguir ejecutando las otras celdas
 
-![](tp1-notebook-loading.png)
+![](images/tp1-notebook-loading.png)
 
 
 ## Parte 2: Variante del algoritmo Gale-Shapley

@@ -379,12 +379,13 @@ Entonces, $\boxed{T(n) \approx \alpha  n  \log(n)}$
 
 #### Gráfico para comparar todos los algoritmos con los tiempos medios
 
-![](https://github.com/MartinAndu/TDA1-1C2018/raw/master/tp1/todos_elementos.png)
+![](images/todos_elementos.png)
 
 #### Gráfico para comparar todos los algoritmos con los tiempos medios (excepto heapsort e Inserción )
-![](https://github.com/MartinAndu/TDA1-1C2018/raw/master/tp1/todos_elementos_excepto_insertion_selection.png)
+![](images/todos_elementos_excepto_insertion_selection.png)
 
 ### E y F)
+
 **Selección:**
 En este algoritmo de ordenamiento no hay un set de datos que haga que se comporte de la peor manera posible ya que indistintamente de los datos el algoritmo hará la misma cantidad de comparaciones.
 
@@ -393,14 +394,14 @@ El peor rendimiento de este algoritmo se dará en casos en los que los datos est
 
 ##### Comparación caso promedio con peor caso
 
-![](https://github.com/MartinAndu/TDA1-1C2018/raw/master/tp1/insertion_comparacion.png)
+![](images/insertion_comparacion.png)
 
 **Quicksort**
 El algoritmo puede alcanzar el orden *$O(n^2)$* en algunos casos, siendo este el peor escenario posible. El caso se da cuando los pivotes elegidos son los menores o mayores elementos del arreglo en todas las iteraciones recursivas del arreglo. Por ejemplo si se quiere ordenar el arreglo ordenado *$[1,2,3,4,5]$* de menor a mayor y si toma el último elemento del arreglo como pivote en cada iteración. Lo que resulta en que se haga la mayor cantidad de comparaciones, alcanzando el orden cuadrático.
 
 ##### Comparación caso promedio con peor caso
 
-![](https://github.com/MartinAndu/TDA1-1C2018/raw/master/tp1/quicksort_comparacion.png)
+![](images/quicksort_comparacion.png)
 
 **Heapsort**
 En el heapsort no importa el orden en el que se encuentren los datos ya que se realizan la misma cantidad de comparaciones (aproximadas) en todos los arreglos indistintos del orden o desorden de los datos. En cualquier caso el heapsort mantiene el orden *$O(n \log n)$*.
