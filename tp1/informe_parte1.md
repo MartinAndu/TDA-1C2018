@@ -156,8 +156,8 @@ def partition(list_test, start, end) :
 ```
 
 
-| Algoritmo | Tiempo de ejecucion
-|-----|-----
+| Algoritmo                           | Tiempo de ejecucion
+|-------------------------------------|----------------------------
 |def quick_sort_method(list_test, start, end) :||
 |  if ( start < end ):||
 |    newIndex = partition(list_test, start, end)|n|
@@ -219,6 +219,7 @@ def heap_sort(list_test) :
     heap_size = heap_size - 1
     max_heapify(list_test, heap_size, 0)
 ```
+
 
 | Algoritmo |  Tiempo de ejecución
 |-----------|--------------------
