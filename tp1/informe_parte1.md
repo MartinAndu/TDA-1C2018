@@ -161,7 +161,7 @@ def partition(list_test, start, end) :
 |def quick_sort_method(list_test, start, end) :||
 |  if ( start < end ):||
 |    newIndex = partition(list_test, start, end)|n|
-|    quick_sort_method(list_test, start, newIndex - 1)|i [tiempo en ejecutar primer subarray]| 
+|    quick_sort_method(list_test, start, newIndex - 1)|i [tiempo en ejecutar primer subarray]|
 |    quick_sort_method(list_test, newIndex + 1, end)|n - 1 - i [tiempo en ejecutar último subarray]|
 
 Esto se traduce como
@@ -220,7 +220,7 @@ def heap_sort(list_test) :
     max_heapify(list_test, heap_size, 0)
 ```
 
-| Algoritmo |  Tiempo de ejecución   
+| Algoritmo |  Tiempo de ejecución
 |-----------|--------------------
 |def heap_sort(list_test) :| |
 |  heap_size = len(list_test) - 1|$1$ |
@@ -380,10 +380,11 @@ Entonces, $\boxed{T(n) \approx \alpha  n  \log(n)}$
 
 #### Gráfico para comparar todos los algoritmos con los tiempos medios
 
-![](images/todos_elementos.png)
+![Tiempos medios](images/todos_elementos.png){ width=60% }
 
-#### Gráfico para comparar todos los algoritmos con los tiempos medios (excepto heapsort e Inserción )
-![](images/todos_elementos_excepto_insertion_selection.png)
+![Tiempos medios sin considerar algoritmos cuadráticos](images/todos_elementos_excepto_insertion_selection.png){ width=60% }
+
+\newpage
 
 ### E y F)
 
@@ -393,29 +394,25 @@ En este algoritmo de ordenamiento no hay un set de datos que haga que se comport
 **Inserción**
 El peor rendimiento de este algoritmo se dará en casos en los que los datos estén ordenados de manera inversa a lo que se quiere obtener. Por ejemplo si se quiere ordenar de menor a mayor los enteros del uno al diez. Para obtener el peor caso los datos deberían estar ordenados de esta mayor a menor [10, 9, 8, 7, 6, 5, 4, 3, 2, 1].
 
-##### Comparación caso promedio con peor caso
-
-![](images/insertion_comparacion.png)
+![Inserción: Comparación con peor caso](images/insertion_comparacion.png){ width=60% }
 
 **Quicksort**
 El algoritmo puede alcanzar el orden *$O(n^2)$* en algunos casos, siendo este el peor escenario posible. El caso se da cuando los pivotes elegidos son los menores o mayores elementos del arreglo en todas las iteraciones recursivas del arreglo. Por ejemplo si se quiere ordenar el arreglo ordenado *$[1,2,3,4,5]$* de menor a mayor y si toma el último elemento del arreglo como pivote en cada iteración. Lo que resulta en que se haga la mayor cantidad de comparaciones, alcanzando el orden cuadrático.
 
-##### Comparación caso promedio con peor caso
 
-![](images/quicksort_comparacion.png)
+![Quicksort: Comparación con peor caso](images/quicksort_comparacion.png){ width=60% }
 
 **Heapsort**
 En el heapsort no importa el orden en el que se encuentren los datos ya que se realizan la misma cantidad de comparaciones (aproximadas) en todos los arreglos indistintos del orden o desorden de los datos. En cualquier caso el heapsort mantiene el orden *$O(n \log n)$*.
 
-![](images/heapsort_comparacion.png)
+![Heapsort: Comparación con peor caso](images/heapsort_comparacion.png){ width=60% }
 
 **Mergesort**
 En el mergesort la manera en el que se encuentran los datos ordenados no afecta el orden de operaciones que sigue siendo O(n log n) aun para el peor escenario posible.
 
-![](images/mergesort_comparacion.png)
+![Mergesort: Comparación con peor caso](images/mergesort_comparacion.png){ width=60% }
 
-
-
+\newpage
 
 ### G)
 * En los casos de SelectionSort e InsertionSort se puede ver que no hay demasiada diferencia con los tiempos medios de estos algoritmos con un sets de datos al azar, puesto que deben recorrer ciclos completos y hacer comparaciones, lo que no cambia mucho utilizarsets de datos considerados desfavorables.
