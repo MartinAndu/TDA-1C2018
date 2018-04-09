@@ -61,12 +61,12 @@ def selection_sort(list_test) :
 |     for x in range(len(list_test) - 1, 1, -1):| C1 | n
 |        pos_of_max = 0 |C2 | n-1|
 |        for y in range(x, len(list_test)): |C3|
-|            if list_test[y] > list_test[pos_of_max]: |(*)C3| n(n+1)/2|
+|            if list_test[y] > list_test[pos_of_max]: |[*]C3| n(n+1)/2|
 |                pos_of_max = y|C3 |
 |        swap(list_test, x, pos_of_max)|C4|(n-1) * 3 (porque son 3 lineas)|
 |    return list_test||
 
-(*) Se llega al C3 porque se ejecuta de la siguiente manera:
+[*] Se llega al C3 porque se ejecuta de la siguiente manera:
   Primer loop : $2 \xrightarrow{hasta} n$
   Segundo loop : $3 \xrightarrow{} n - 1$
   Tercer loop : $4 \xrightarrow{} n -2$
@@ -104,13 +104,13 @@ def insertion_sort(list_test) :
 |    for y in range(1, len(list_test)) :|C1| $n$
 |        key = list_test[y]|C2| $n - 1$
 |        x = y - 1|C3| $n - 1$
-|        while x > 0 and list_test[ x ] > key :|C4| (*) $\sum_{x=1}^{n} t_j$
+|        while x > 0 and list_test[ x ] > key :|C4| [*] $\sum_{x=1}^{n} t_j$
 |            list_test[x + 1] = list_test[x]|C5| $\sum_{x=1}^{n} (t_j - 1)$
 |            x = x - 1|C6| $\sum_{x=1}^{n} (t_j - 1)$
 |        list_test[x + 1] = key|C7| $ n - 1 $
 |    return list_test||
 
-(*) Número de veces que se ejecuta el while para un valor de j
+[*] Número de veces que se ejecuta el while para un valor de j
 
 $$
 \begin{aligned}
@@ -220,15 +220,16 @@ def heap_sort(list_test) :
     max_heapify(list_test, heap_size, 0)
 ```
 
-| Algoritmo |   Tiempo de ejecución   |
-|-----------|-------------------------|
-|def heap_sort(list_test) :||
-|  heap_size = len(list_test) - 1|$1$|
-|  build_heap(list_test, heap_size)| $n$ ( por definicion)
-|  for x in range(len(list_test) - 1, 0, -1) |
-|  swap(list_test, 0, x) | $3n$
-|    heap_size = heap_size - 1|$n$
-|    max_heapify(list_test, heap_size, 0)| $O(n \log n)$ (por definicion)|
+| Algoritmo |  Tiempo de ejecución   
+|-----------|--------------------
+|def heap_sort(list_test) :| |
+|  heap_size = len(list_test) - 1|$1$ |
+|  build_heap(list_test, heap_size)| $n$ [por definicion] |
+|  for x in range(len(list_test) - 1, 0, -1) |n |
+|  swap(list_test, 0, x) | $3n$ |
+|    heap_size = heap_size - 1|$n$ |
+|    max_heapify(list_test, heap_size, 0)| $O(n \log n)$ [por definicion] |
+
 
 En promedio se realiza en $n$ iteraciones un max_heapify que lleva $O(\log n)$, por lo tanto el costo temporal de este algoritmo en promedio es de O$(n \log n)$
 
