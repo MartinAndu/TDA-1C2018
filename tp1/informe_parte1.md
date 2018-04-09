@@ -1161,7 +1161,7 @@ d)
 #### Gráfico para comparar todos los algoritmos con los tiempos medios (excepto heapsort e Inserción )
 ![alt text](https://github.com/MartinAndu/TDA1-1C2018/raw/master/tp1/todos_elementos_excepto_insertion_selection.png)
 
-E)
+E y F)
 **Selección:**
 En este algoritmo de ordenamiento no hay un set de datos que haga que se comporte de la peor manera posible ya que indistintamente de los datos el algoritmo hará la misma cantidad de comparaciones.
 
@@ -1179,3 +1179,10 @@ El algoritmo puede alcanzar el orden *$O(n^2)$* en algunos casos, siendo este el
 
 **Heapsort**
 En el heapsort no importa el orden en el que se encuentren los datos ya que se realizan la misma cantidad de comparaciones (aproximadas) en todos los arreglos indistintos del orden o desorden de los datos. En cualquier caso el heapsort mantiene el orden *$O(n \log n)$*.
+
+G) 
+* En los casos de SelectionSort e InsertionSort se puede ver que no hay demasiada diferencia con los tiempos medios de estos algoritmos con un sets de datos al azar, puesto que deben recorrer ciclos completos y hacer comparaciones, lo que no cambia mucho utilizarsets de datos considerados desfavorables. 
+* En el Quicksort la diferencia es abismal, al tener todo el array ya ordenado obliga a hacer todas las comparaciones y la diferencia se pronuncia aún más cuanto más grande es el tamaño del array
+* Tanto en el HeapSort como en el MergeSort, la cantidad de comparaciones que se deben realizar son de O(n log n) por lo que casi no hay diferencia al compararse con arrays que puedan llevar a un peor caso.
+
+
