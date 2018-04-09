@@ -10,6 +10,13 @@ Para la primera parte es necesario instalar jupyter y matplotlib:
 pip install jupyter matplotlib
 ```
 
+Luego se debe ejecutar el siguiente comando para poder comenzar con las pruebas
+```bash
+jupyter notebook
+```
+
+Se debe dirigiar hacia la carpeta tp1/tp1_1.ipynb y hay que ejecutar todas las
+celdas del notebook desde el principio hasta el final
 
 ### Parte 2: Variante del algoritmo Gale-Shapley
 
