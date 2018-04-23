@@ -44,5 +44,7 @@ Por defecto, va a generar las preferencias randomizadas basadas en una semilla, 
 
 ```python
 s = TPSolver(players=200, teams=20, seed=1000, path='mi_carpeta')
-m = s.solve_tp(generate_files=False)
+m = s.solve_tp_fixed(generate_files=False)
 ```
+
+Para ejecutar la versión anterior a la reentrega, hay que modificar el método, al que se llama a *solve_tp*: `s.solve_tp()`.

@@ -6,32 +6,49 @@ import os
 import pprint
 
 
-def gale_shapley(M, W):
+def _match(m, w, matching, inverse_matching):
+    """ Función de vinculación de la implementación de gale shapley convencional. """
+    # print('matching ', m, ' y ', w)
+    matching[m] = w
+    inverse_matching[w] = m
+
+
+def _unmatch(m, w, matching, inverse_matching):
+    """ Función de desvinculación de la implementación de gale shapley convencional. """
+    # print('Unmatching ', m, ' y ', w)
+    del matching[m]
+    del inverse_matching[w]
+
+
+def _rank(prefs, k, matching=None):
+    """ Función de ranking de la implementación de gale shapley convencional. """
+    return -prefs.index(k)
+
+
+def gale_shapley(M, W, rank=_rank, match=_match, unmatch=_unmatch):
     """
     Dados dos sets M y W, devuelve un matching estable entre ellos.
 
     M y W deben ser diccionarios, donde cada clave es el elemento del
     set y su valor es una lista con ranking sobre cada uno de los
     elementos del otro set.
+
+    Rank, match y unmatch son funciones que permiten cambiar el funcionamiento
+    por defecto del algoritmo.
+
+     - rank recibe por parametro la estructura de datos que guarda las
+     preferencias, y el elemento del que se requiere el ranking, y tiene que
+     devolver ese ranking.
+
+     - match y unmatch reciben por parametro elemento m (del set M) y w (del set W),
+     diccionario con el matching y diccionario con el matching inverso, y tienen que
+     vincular o desvincular respectivamente m con w, alterando ambos diccionarios.
     """
 
     total = len(M)
 
     matching = {}
     inverse_matching = {}
-
-    def _match(m, w):
-        # print('matching ', m, ' y ', w)
-        matching[m] = w
-        inverse_matching[w] = m
-
-    def _unmatch(m, w):
-        # print('Unmatching ', m, ' y ', w)
-        del matching[m]
-        del inverse_matching[w]
-
-    def _rank(prefs, k):
-        return -prefs.index(k)
 
     while len(matching) < total:
         for m, preferences in M.items():
@@ -42,14 +59,78 @@ def gale_shapley(M, W):
 
             for w in preferences:
                 if w not in inverse_matching:
-                    _match(m, w)
+                    _match(m, w, matching, inverse_matching)
                     break
 
                 m1 = inverse_matching[w]
 
-                if _rank(W[w], m) > _rank(W[w], m1):
-                    _unmatch(m1, w)
+                if _rank(W[w], m, matching) > _rank(W[w], m1, matching):
+                    _unmatch(m1, w, matching, inverse_matching)
+                    _match(m, w, matching, inverse_matching)
+                    break
+
+    return matching
+
+
+def gale_shapley_fixed(players, teams):
+    """
+    Versión de gale shapley adaptada para el problema de equipos/jugadores.
+    Su orden teórico es O(nm).
+    """
+
+    n = len(players) // len(teams)
+    total = len(players)
+
+    matching = {}
+    inverse_matching = {}
+
+    # Preferencias de cada equipo se convierten en iteradores, de modo que
+    # siempre se le proponga al jugador siguiente en ranking, al que todavia no
+    # se le hizo una propuesta
+    to_propose = {k: iter(v) for k, v in teams.items()}
+
+    # Las preferencias de cada jugador se convierten en un diccionario, para
+    # poder preguntar el ranking de un equipo en O(1)
+    players_prefs = {}
+    for k, v in players.items():
+        players_prefs[k] = {item: i for i, item in enumerate(v)}
+
+    def _rank(prefs, k):
+        return -prefs[k]
+
+    def _match(m, w):
+        # Matching de cada equipo se guarda en un set() de python, para que
+        # la adición y la remoción de jugadores se resuelva en O(1)
+        if m not in matching:
+            matching[m] = {w}
+        else:
+            matching[m].add(w)
+        inverse_matching[w] = m
+
+    def _unmatch(m, w):
+        matching[m].remove(w)
+        if len(matching[m]) == 0:
+            del matching[m]
+        del inverse_matching[w]
+
+    while sum(list(map(len, matching.values()))) < total:
+        for m, preferences in to_propose.items():
+
+            if m in matching and len(matching[m]) >= n:
+                continue
+
+            for w in preferences:
+
+                if w not in inverse_matching:
                     _match(m, w)
+                else:
+                    m1 = inverse_matching[w]
+
+                    if _rank(players_prefs[w], m) > _rank(players_prefs[w], m1):
+                        _unmatch(m1, w)
+                        _match(m, w)
+
+                if m in matching and len(matching[m]) >= n:
                     break
 
     return matching
@@ -148,27 +229,35 @@ class TPSolver:
             r[v].append(k)
         return r
 
-    def solve_tp(self, generate_files=True):
-        """
-        Resuelve el tp. Si generate_files está en False, va a  leer los
-        sets desde la ruta especificada
-        """
+    def _get_or_write_sets_for_tp(self, generate_files=True):
         if generate_files:
             players, teams = self.generate_set_for_tp()
             self.write_set_as_files(players, teams)
         else:
             players, teams = self.read_set_from_files(self.path)
+        return players, teams
 
+    def solve_tp(self, generate_files=True):
+        """
+        Resuelve el tp. Si generate_files está en False, va a  leer los
+        sets desde la ruta especificada
+        """
+        players, teams = self._get_or_write_sets_for_tp()
         M, W = self.adapt_set_for_gs(players, teams)
         m = gale_shapley(M, W)
-        return self.unwrap_set_after_gs(m)
+        return self.reverse_match(self.unwrap_set_after_gs(m))
+
+    def solve_tp_fixed(self, generate_files=True):
+        players, teams = self._get_or_write_sets_for_tp()
+        m = gale_shapley_fixed(players, teams)
+        return {k: list(v) for k, v in m.items()}
 
 
 def main():
     s = TPSolver(players=200, teams=20)
-    m = s.solve_tp()
+    m = s.solve_tp_fixed(generate_files=False)
     print('Equipo: [jugador1...jugadorN]\n')
-    pprint.pprint(s.reverse_match(m))
+    pprint.pprint(m)
 
 
 if __name__ == '__main__':
