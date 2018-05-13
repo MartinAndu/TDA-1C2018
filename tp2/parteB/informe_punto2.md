@@ -54,4 +54,3 @@ Durante la investigación sobre el problema nos encontramos con que existen algu
 
 Un algoritmo muy simple para el que no pudimos encontrar un contraejemplo es el siguiente: del conjunto de las aristas ir seleccionando las de peso más grande, y agregándolas a la solución, siempre y cuando esa arista se pueda conectar (que la suma de las aristas incidentes en los nodos que conecta la arista en cuestión sea menor a 2).
 
-\newpage
