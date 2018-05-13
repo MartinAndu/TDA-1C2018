@@ -81,7 +81,7 @@ class Grafo:
         if aeropuerto is not None:
             self.aeropuerto = aeropuerto
 
-    def camino_minimo(self, nodo, distancia=1):
+    def camino_minimo(self, nodo, distancia_euclidea):
         vertices = list(self.nodos)
         visto = {}
         distancia = {}
@@ -102,7 +102,7 @@ class Grafo:
             if u in self.conexiones.keys():
                 adyacencias = self.conexiones[u]
                 for _n in adyacencias:
-                    if distancia == 1:
+                    if distancia_euclidea:
                         if distancia[_n] > distancia[u] + u.distancia_euclidea(_n):
                             distancia[_n] = distancia[u] + u.distancia_euclidea(_n)
                             heapq.heappush(heap, (_n, distancia[_n]))
@@ -130,28 +130,19 @@ class Grafo:
             nodo_iterador = diccionario[nodo_iterador]
         return lista
 
-    def distancia_euclidea_espia1_aeropuerto(self):
-        (dist, padre) = self.camino_minimo(self.espia_1)
-        camino = self.reconstruir_camino(padre)
-        return dist[self.aeropuerto]
-
-    def distancia_euclidea_espia2_aeropuerto(self):
-        (dist, padre) = self.camino_minimo(self.espia_2)
-        return dist[self.aeropuerto]
-
-    def distancia_espia1_aeropuerto(self):
-        (dist, padre) = self.camino_minimo(self.espia_1, 2)
+    def distancia_espia1_aeropuerto(self, euclidea):
+        (dist, padre) = self.camino_minimo(self.espia_1, euclidea)
         camino = self.reconstruir_camino(padre, self.aeropuerto)
         return (dist[self.aeropuerto], camino)
 
-    def distancia_espia2_aeropuerto(self):
-        (dist, padre) = self.camino_minimo(self.espia_2, 2)
+    def distancia_espia2_aeropuerto(self, euclidea):
+        (dist, padre) = self.camino_minimo(self.espia_2, euclidea)
         camino = self.reconstruir_camino(padre, self.aeropuerto)
         return (dist[self.aeropuerto], camino)
 
-    def obtener_ganador(self):
-        (distancia_espia1, camino_espia1) = self.distancia_espia1_aeropuerto()
-        (distancia_espia2, camino_espia2) = self.distancia_espia2_aeropuerto()
+    def obtener_ganador(self, euclidea = False):
+        (distancia_espia1, camino_espia1) = self.distancia_espia1_aeropuerto(euclidea)
+        (distancia_espia2, camino_espia2) = self.distancia_espia2_aeropuerto(euclidea)
         if distancia_espia1 < distancia_espia2:
             ganador = "El ganador es el espia 1"
             ruta_ganadora = camino_espia1
@@ -163,13 +154,6 @@ class Grafo:
         for _nodo in ruta_ganadora:
             _recorrido = _recorrido + ' ' + _nodo.mostrar()
         return ganador + " y la ruta que recorrio fue" + _recorrido
-
-    def obtener_ganador_euclideo(self):
-        if self.distancia_euclidea_espia1_aeropuerto() < self.distancia_euclidea_espia2_aeropuerto():
-            return "El ganador es el espia 1"
-        else:
-            return "El ganador es el espia 2"
-
 
 def make_grafo(archivo):
     grafo = Grafo(archivo)
