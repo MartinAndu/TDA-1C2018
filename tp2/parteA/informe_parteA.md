@@ -250,19 +250,19 @@ Espia 1 ubicado en (6,5)
 Espia 2 ubicado en (10,3)
 Aeropuerto ubicado en (9,100)
 -----------------------------
-distancia de (6,5) a (5,4):1.4142135623730951
-distancia de (6,5) a (9,100):297.5441605535976
 distancia de (6,5) a (4,134):131.41805965932517
-distancia de (6,5) a (6,5):0
+distancia de (6,5) a (9,100):297.5441605535976
+distancia de (6,5) a (5,4):1.4142135623730951
 distancia de (6,5) a (10,3): infinito
 distancia de (6,5) a (5,34):231.4230595343314
-distancia de (10,3) a (5,4):5.8863495173726745
-distancia de (10,3) a (9,100):297.2634334887705
+distancia de (6,5) a (6,5):0
 distancia de (10,3) a (4,134):131.13733259449805
-distancia de (10,3) a (6,5):4.47213595499958
+distancia de (10,3) a (9,100):297.2634334887705
+distancia de (10,3) a (5,4):5.8863495173726745
 distancia de (10,3) a (10,3):0
 distancia de (10,3) a (5,34):231.1423324695043
-El ganador es el espia 2 y la ruta que recorrio fue (9,100)
+distancia de (10,3) a (6,5):4.47213595499958
+El ganador es el espia 2 y la ruta que recorrio fue (9,100) (5,34) (4,134) (10,3)
 ```
 
 
