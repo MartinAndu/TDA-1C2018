@@ -1,7 +1,7 @@
 from Grafo import make_grafo
 
 grafo = None
-grafo = make_grafo("/mnt/cosas/facu/TDA/TP2/TP2/mapa.coords")
+grafo = make_grafo("mapa.coords")
 grafo.parsearArchivo()
 # grafo.mostrar_grafo()
 # _set = list(grafo.devolver_nodos())

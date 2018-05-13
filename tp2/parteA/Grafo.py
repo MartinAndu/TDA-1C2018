@@ -105,6 +105,7 @@ class Grafo:
                     if distancia_euclidea:
                         if distancia[_n] > distancia[u] + u.distancia_euclidea(_n):
                             distancia[_n] = distancia[u] + u.distancia_euclidea(_n)
+                            padre[_n] = u
                             heapq.heappush(heap, (_n, distancia[_n]))
                     else:
                         if distancia[_n] > distancia[u] + u.distancia(_n):
