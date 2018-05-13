@@ -31,7 +31,20 @@ Los programas deben funcionar para cualquier mapa de ciudad. Los algoritmos debe
 
 ### Algoritmo de resolución
 
-Se aplica un algoritmo de Dijkstra con cola de prioridad
+#### Uso de Algoritmo
+
+Se aplica un algoritmo de Dijkstra con cola de prioridad. Este algoritmo consiste en aplicar un Dijkstra para encontrar el camino mínimo entre varios vértices pero con la variante de agregar una cola de prioridad.   
+
+#### Explicacion
+
+En la cola de prioridad se hace un push como primer elemento de una tupla de (nodo, distancia). Se extrae de esta estructura esta tupla . A patir de eso, se busca el nodo más cercano y se hace un push en la cola de prioridad de la tupla (nodo, distancia). Se recorre así el grafo conexo, guardando en la cola las distancias mínimas que fue encontrando. Se realiza este procedimiento hasta que la cola esté vacía.
+
+#### Justificación del algoritmo
+
+En un Dijkstra común para este problema se encontraría la solución esperada pero es ineficiente porque en el peor de los casos que los espías estén bastante alejados entre sí y entre el aeropuerto, es de $$O(|E| + |V|^2)$$ 
+
+Al agregarse una estructura nueva que en nuestro caso es la cola de prioridad, se permite guardar el grafo con las mínimas distancias y se llega a una complejidad de $$O( E log v)$$ en el peor caso
+
 
 TP2-1.py
 
