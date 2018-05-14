@@ -28,12 +28,13 @@ def kmp(S,W):
     T = kmp_tabla(W) #complejidad O(n)
     lenS = len(S)
     lenW = len(W)
-    P = [0]*len(S)
+    P = [0]*lenS
     while j < lenS: #complejidad O(n)
         if W[k] == S[j]:
             j = j + 1
             k = k + 1
             if k == lenW:
+                P[np] = j - k
                 np = np + 1
                 k = T[k]
         else:
@@ -41,6 +42,9 @@ def kmp(S,W):
             if k < 0:
                 j = j + 1
                 k = k + 1
+    for i in range(len(P)):
+        print('P[' + str(i) + '] = ' + str(P[i]))
+    print('np = ' + str(np))
     return (P, np)
 
 def es_rotacion_ineficiente(S,W):
