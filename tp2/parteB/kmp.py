@@ -21,15 +21,16 @@ def kmp_tabla(W):
 
     return T
 
-def kmp(S,W):
+
+def kmp(S, W):
     np = 0
     j = 0
     k = 0
-    T = kmp_tabla(W) #complejidad O(n)
+    T = kmp_tabla(W)  #complejidad O(n)
     lenS = len(S)
     lenW = len(W)
     P = [0]*lenS
-    while j < lenS: #complejidad O(n)
+    while j < lenS:  #complejidad O(n)
         if W[k] == S[j]:
             j = j + 1
             k = k + 1
@@ -42,9 +43,10 @@ def kmp(S,W):
             if k < 0:
                 j = j + 1
                 k = k + 1
-    return np > 0
+    return np
 
-def es_rotacion_ineficiente(S,W):
+
+def es_rotacion_ineficiente(S, W):
     if len(S) != len(W):
         return False
     for k in range(len(W)):
@@ -54,7 +56,8 @@ def es_rotacion_ineficiente(S,W):
 
     return False
 
-def es_rotacion_eficiente(S,W):
+
+def es_rotacion_eficiente(S, W):
     if len(S) != len(W):
         return False
     str_tmp = W + W
@@ -65,11 +68,11 @@ def es_rotacion_eficiente(S,W):
 
 W = "DABRAABRACA"
 S = "ABRACADABRA"
-print(es_rotacion_eficiente(S,W))
-print(es_rotacion_ineficiente(S,W))
+print(es_rotacion_eficiente(S, W))
+print(es_rotacion_ineficiente(S, W))
 
 
 W = "DABRAABRACA1"
 S = "ABRACADABRA3"
-print(es_rotacion_eficiente(S,W))
-print(es_rotacion_ineficiente(S,W))
+print(es_rotacion_eficiente(S, W))
+print(es_rotacion_ineficiente(S, W))

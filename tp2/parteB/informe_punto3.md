@@ -46,9 +46,9 @@ def minima_cantidad_recursos_mejorado(intervalos)
     intervalos_comienzo := ordenar intervalos por tiempo de comienzo
     intervalos_fin := ordenar intervalos por tiempo de finalización
 
-    resultado := 0;
-    profundidad_actual := 0;
-    i := 0; j := 0;
+    resultado := 0
+    profundidad_actual := 0
+    i := 0; j := 0
 
     mientras (i < n y j < n):
         si (intervalos_comienzo[i] < intervalos_fin[j]):
@@ -93,3 +93,4 @@ Redujimos un algoritmo, que sabemos del primer punto que tiene una solución en 
 
 Sin embargo no podemos hacer la reducción inversa, es decir conseguir una conversión de entrada de GCP a la entrada a nuestro algoritmo, y otra conversión de la salida de nuestro algoritmo, de modo que las conversiones no tengan mayor orden que $O(nlog(n))$. Por ende, no podemos afirmar que $P = NP$.
 
+\newpage
