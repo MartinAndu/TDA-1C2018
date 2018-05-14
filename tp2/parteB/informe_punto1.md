@@ -18,7 +18,7 @@ Ejemplo: DABRAABRACA es una rotación cíclica de ABRACADABRA
 
 #### Algoritmo de fuerza bruta
 
-El algoritmo de fuerza bruta consiste en ir rotando el string (removiendo el primer caracter y poniendolo al final), y comparando con el segundo string. Si después de realizar `n` (donde `n` es es el tamaño de la primera string) comparaciones, ninguna comparación dió verdadero - las cadenas no son rotaciones cíclicas. La comparación se realiza recorriendo la cadena en toda su longitud y comparando cada elemento de una cadena con la otra.
+El algoritmo de fuerza bruta consiste en ir rotando el string (removiendo el primer caracter y poniéndolo al final), y comparando con el segundo string. Si después de realizar `n` (donde `n` es es el tamaño de la primera string) comparaciones, ninguna comparación dio verdadero - las cadenas no son rotaciones cíclicas. La comparación se realiza recorriendo la cadena en toda su longitud y comparando cada elemento de una cadena con la otra.
 
 Cabe aclarar que para que dos cadenas sean rotaciones cíclicas, necesariamente tienen que tener la misma cantidad de caracteres, entonces tanto esta implementación como la siguiente verifica esta condición y no hace procesamiento extra si da falso.
 
@@ -54,7 +54,7 @@ True
 
 #### Mejora al algoritmo con KMP
 
-Una forma de resolver el problema de deducir si dos strings (X e Y) son rotación cíclica entre si, es buscando si Y es una subocurrencia de una concatenación de X con X. El motivo de esto radica en que X + X contiene todas las rotaciones ciclicas posibles de X, por lo que si Y es una rotación ciclica de X, el algoritmo KMP nos devolvera que el patrón Y está contenido en la cadena X+X.
+Una forma de resolver el problema de deducir si dos strings (X e Y) son rotación cíclica entre si, es buscando si Y es una subocurrencia de una concatenación de X con X. El motivo de esto radica en que X + X contiene todas las rotaciones cíclicas posibles de X, por lo que si Y es una rotación cíclica de X, el algoritmo KMP nos devolverá que el patrón Y está contenido en la cadena X+X.
 
 El orden de este algoritmo es de $O(2n) = O(n)$.
 
