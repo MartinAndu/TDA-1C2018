@@ -42,18 +42,14 @@ def kmp(S,W):
             if k < 0:
                 j = j + 1
                 k = k + 1
-    for i in range(len(P)):
-        print('P[' + str(i) + '] = ' + str(P[i]))
-    print('np = ' + str(np))
-    return (P, np)
+    return np > 0
 
 def es_rotacion_ineficiente(S,W):
     if len(S) != len(W):
         return False
     for k in range(len(W)):
         str_tmp = W[k:] + W[:k]
-        (P, np) = kmp(S, str_tmp)
-        if P[0] == 0:
+        if kmp(str_tmp, S) > 0:
             return True
 
     return False
@@ -62,8 +58,7 @@ def es_rotacion_eficiente(S,W):
     if len(S) != len(W):
         return False
     str_tmp = W + W
-    (P, np) = kmp(S, str_tmp)
-    if P[0] == 0:
+    if kmp(str_tmp, S) > 0:
         return True
     return False
 
