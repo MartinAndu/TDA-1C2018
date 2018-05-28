@@ -15,6 +15,7 @@ class Grafo:
         self.nombre_archivo = nombre_archivo
         self.nodos = set()
 
+
     def parsearArchivo(self):
         with open(self.nombre_archivo, "r") as archivo:
             for linea in archivo.readlines():
@@ -41,27 +42,25 @@ class Grafo:
                     if nodo1 == None:
                         nodo1 = __nodo
 
+                # agrego a las conexiones
                 conexiones_nodo1 = list()
+                conexiones_nodo = list()
+
                 if nodo1 in self.conexiones.keys():
                     conexiones_nodo1 = self.conexiones[nodo1]
+                if __nodo in self.conexiones.keys():
+                    conexiones_nodo = self.conexiones[__nodo]
 
                 conexiones_nodo1.append(__nodo)
-                # actualizo
+                conexiones_nodo.append(nodo1)
                 self.conexiones[nodo1] = conexiones_nodo1
-
-    def mostrar_grafo(self):
-        for nodo in self.nodos:
-            print('Conexiones de nodo ' + nodo.mostrar() + ':')
-            if nodo in self.conexiones.keys():
-                adyacentes = self.conexiones[nodo]
-                for _con in adyacentes:
-                    print(_con.mostrar())
+                self.conexiones[__nodo] = conexiones_nodo
 
     def devolver_nodos(self):
         return self.nodos
 
     def ubicar_nodo(self, x, y):
-        for _nodo in list(self.nodos):
+        for _nodo in self.nodos:
             if _nodo.x == x and _nodo.y == y:
                 return _nodo
         return None
@@ -81,7 +80,35 @@ class Grafo:
         if aeropuerto is not None:
             self.aeropuerto = aeropuerto
 
-    def camino_minimo(self, nodo, distancia_euclidea):
+    def camino_minimo_unitario(self):
+        return self.bfs(self.aeropuerto)
+
+    def bfs(self, u):
+        nivel = {}
+        padre = {}
+        cola = list()
+        for v in self.nodos:
+            nivel[v] = 0
+            padre[v] = None
+
+        nivel[u] = 0
+        cola.append(u)
+        while len(cola) > 0:
+            v = cola.pop()
+            if nivel[v] == 0:
+                if padre[v] is None:
+                    nivel[v] = 1
+                else:
+                    nivel[v] = nivel[padre[v]] + 1
+                ady = self.conexiones[v]
+                for a in ady:
+                    if nivel[a] == 0:
+                        cola.append(a)
+                        padre[a] = v
+
+        return nivel, padre
+    
+    def camino_minimo(self, nodo):
         vertices = list(self.nodos)
         visto = {}
         distancia = {}
@@ -102,24 +129,10 @@ class Grafo:
             if u in self.conexiones.keys():
                 adyacencias = self.conexiones[u]
                 for _n in adyacencias:
-                    if distancia_euclidea:
-                        if distancia[_n] > distancia[u] + u.distancia_euclidea(_n):
-                            distancia[_n] = distancia[u] + u.distancia_euclidea(_n)
-                            padre[_n] = u
-                            heapq.heappush(heap, (_n, distancia[_n]))
-                    else:
-                        if distancia[_n] > distancia[u] + u.distancia(_n):
-                            distancia[_n] = distancia[u] + u.distancia(_n)
-                            padre[_n] = u
-                            heapq.heappush(heap, (_n, distancia[_n]))
-                            print('Desde nodo ' + u.mostrar() + ' paso por ' + _n.mostrar())
-
-        for dist in distancia.keys():
-            distancia_str = ' infinito'
-            if distancia[dist] != self.INFINITO:
-                distancia_str = str(distancia[dist])
-            print('distancia de ' + nodo.mostrar() + ' a ' + dist.mostrar() + ':' + distancia_str)
-
+                    if distancia[_n] > distancia[u] + u.distancia_euclidea(_n):
+                        distancia[_n] = distancia[u] + u.distancia_euclidea(_n)
+                        padre[_n] = u
+                        heapq.heappush(heap, (_n, distancia[_n]))
         return distancia, padre
 
     def reconstruir_camino(self, diccionario, inicial):
@@ -131,25 +144,23 @@ class Grafo:
             nodo_iterador = diccionario[nodo_iterador]
         return lista
 
-    def distancia_espia1_aeropuerto(self, euclidea):
-        (dist, padre) = self.camino_minimo(self.espia_1, euclidea)
-        camino = self.reconstruir_camino(padre, self.aeropuerto)
-        return (dist[self.aeropuerto], camino)
+    def obtener_ganador(self, euclidea):
+        padre = None
+        if not euclidea:
+            (dist, padre) = self.camino_minimo_unitario()
+            distancia_espia1 = dist[self.espia_1]
+            distancia_espia2 = dist[self.espia_2]
+        else:
+            (dist, padre) = self.camino_minimo(self.aeropuerto)
+            distancia_espia1 = dist[self.espia_1]
+            distancia_espia2 = dist[self.espia_2]
 
-    def distancia_espia2_aeropuerto(self, euclidea):
-        (dist, padre) = self.camino_minimo(self.espia_2, euclidea)
-        camino = self.reconstruir_camino(padre, self.aeropuerto)
-        return (dist[self.aeropuerto], camino)
-
-    def obtener_ganador(self, euclidea = False):
-        (distancia_espia1, camino_espia1) = self.distancia_espia1_aeropuerto(euclidea)
-        (distancia_espia2, camino_espia2) = self.distancia_espia2_aeropuerto(euclidea)
         if distancia_espia1 < distancia_espia2:
             ganador = "El ganador es el espia 1"
-            ruta_ganadora = camino_espia1
+            ruta_ganadora = self.reconstruir_camino(padre, self.espia_1)
         else:
             ganador = "El ganador es el espia 2"
-            ruta_ganadora = camino_espia2
+            ruta_ganadora = self.reconstruir_camino(padre, self.espia_2)
 
         _recorrido = ""
         for _nodo in ruta_ganadora:

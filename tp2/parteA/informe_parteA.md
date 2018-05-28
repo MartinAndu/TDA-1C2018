@@ -34,18 +34,25 @@ Los programas deben funcionar para cualquier mapa de ciudad. Los algoritmos debe
 ## Algoritmo de resolución
 
 ### Uso de Algoritmo
-
-Se aplica un algoritmo de Dijkstra con cola de prioridad. Este algoritmo consiste en aplicar un Dijkstra para encontrar el camino mínimo entre varios vértices pero con la variante de agregar una cola de prioridad.
+Cuando se trabaja con distancias unitarias, es decir, la distancia es la cantidad de nodos entre uno dado y otro, se aplica el algoritmo BFS.
+Cuando se trata de distancias euclideas, se aplica un algoritmo de Dijkstra con cola de prioridad. Este algoritmo consiste en aplicar un Dijkstra para encontrar el camino mínimo entre varios vértices pero con la variante de agregar una cola de prioridad.
 
 ### Explicacion
 
 En la cola de prioridad se hace un push como primer elemento de una tupla de (nodo, distancia). Se extrae de esta estructura esta tupla . A patir de eso, se busca el nodo más cercano y se hace un push en la cola de prioridad de la tupla (nodo, distancia). Se recorre así el grafo conexo, guardando en la cola las distancias mínimas que fue encontrando. Se realiza este procedimiento hasta que la cola esté vacía.
 
 ### Justificación del algoritmo
+Cuando se trabaja con las distancias unitarias, el algoritmo BFS es más eficiente que aplicar Dijkstra. En cada iteración expande la búsqueda por una arista. Esto tiene el efecto de encontrar el menor número de pasos que toma hasta un nodo dado desde la raíz. En cambio, Dijkstra devuelve el camino mínimo desde el origen hasta cada nodo, pero se puede trabajar con distintas distancias.
 
-En un Dijkstra común para este problema se encontraría la solución esperada pero es ineficiente porque en el peor de los casos que los espías estén bastante alejados entre sí y entre el aeropuerto, es de $$O(|E| + |V|^2)$$
+En un Dijkstra común para este problema se encontraría la solución esperada pero es ineficiente porque en el peor de los casos que los espías estén bastante alejados entre sí y entre el aeropuerto, es de $O(|E| + |V|^2)$
 
-Al agregarse una estructura nueva que en nuestro caso es la cola de prioridad, se permite guardar el grafo con las mínimas distancias y se llega a una complejidad de $$O( E log v)$$ en el peor caso
+Al agregarse una estructura nueva que en nuestro caso es la cola de prioridad, se permite guardar el grafo con las mínimas distancias y se llega a una complejidad de $O( E \log v)$ en el peor caso.
+
+En ambos casos se guarda un diccionario con clave un objeto tipo Nodo y un valor otro objeto del mismo tipo. Este diccionario está pensado para ir guardando desde dónde se llegó a cada nodo. Finalmente, para mostrar la información en pantalla, se toma el nodo correspondiente al espía 1, se obtiene el nodo padre, se vuelve a repetir esta operación hasta que el nodo padre sea igual a nulo. Análogamente, se hace lo mismo con el nodo correspondiente al espía 2.
+Llenar este diccionario en ambos algoritmos no añade complejidad. Dado que, tanto agregar como consultar un diccionario en Python es $O(1)$.
+Para mostrar el camino existe el método `reconstruir_camino(self, diccionario, inicial)` que se llama desde `obtener_ganador`. La complejidad de dicho método es $O(N)$
+En Python tanto consultar como agregar el caso promedio es $O(1)$. Existen casos muy particulares, donde la complejidad es $O(N)$. Esto sucede cuando hay
+colisiones. En ese caso, se puede sobreescribir el método `__hash__` para evitar que esto suceda y de esta manera no aumentar la complejidad.
 
 ### Resolución
 
@@ -73,19 +80,5 @@ Espia 1 ubicado en (6,5)
 Espia 2 ubicado en (10,3)
 Aeropuerto ubicado en (9,100)
 -----------------------------
-distancia de (6,5) a (4,134):131.41805965932517
-distancia de (6,5) a (9,100):297.5441605535976
-distancia de (6,5) a (5,4):1.4142135623730951
-distancia de (6,5) a (10,3): infinito
-distancia de (6,5) a (5,34):231.4230595343314
-distancia de (6,5) a (6,5):0
-distancia de (10,3) a (4,134):131.13733259449805
-distancia de (10,3) a (9,100):297.2634334887705
-distancia de (10,3) a (5,4):5.8863495173726745
-distancia de (10,3) a (10,3):0
-distancia de (10,3) a (5,34):231.1423324695043
-distancia de (10,3) a (6,5):4.47213595499958
-El ganador es el espia 2 y la ruta que recorrio fue (9,100) (5,34) (4,134) (10,3)
+El ganador es el espia 2 y la ruta que recorrio fue (10,3) (4,134) (5,34) (9,100)
 ```
-
-
