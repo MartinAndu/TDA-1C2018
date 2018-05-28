@@ -10,10 +10,10 @@ geometry:
 lang: spanish
 toc: true
 title: 75.29 Teoría de Algoritmos
-subtitle: Trabajo Práctico 2
+subtitle: Trabajo Práctico 2, Team Tardos
 author:
-  - Andújar, Martín
-  - Moriello, Khalil Alejandro
-  - Gavrilov, Seva
+  - 95099, Martín Andújar
+  - 96525, Khalil Alejandro Moriello
+  - 96252, Seva Gavrilov
 ---
 
