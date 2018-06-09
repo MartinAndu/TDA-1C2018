@@ -123,19 +123,18 @@ class Juego:
 
         while True:
             turno += 1
-            barco_a_mover = self.estrategia_barcos.siguiente_turno(*args)
-            self.mover_barco(barco_a_mover)
-            self.imprimir_turno(turno, puntos)
-
             misiles_disparados = self.estrategia_lanzaderos.siguiente_turno(*args)
-            self.disparar_misiles(misiles_disparados)
             self.imprimir_misiles(misiles_disparados)
+            self.disparar_misiles(misiles_disparados)
 
             barcos_vivos = self.cantidad_barcos_vivos()
             if barcos_vivos == 0:
                 break
-
             puntos += barcos_vivos
+
+            barco_a_mover = self.estrategia_barcos.siguiente_turno(*args)
+            self.mover_barco(barco_a_mover)
+            self.imprimir_turno(turno, puntos)
 
         self.imprimir_final(turno, puntos)
 
