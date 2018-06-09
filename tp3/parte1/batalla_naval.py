@@ -24,25 +24,11 @@ class Estrategia:
 
           {1: {'vida': 50, 'posicion': 0}}
 
-        Una estrategia de barcos debe devolver el número de barco a avanzar en
-        el turno actual.
-
-        Una estrategia de lanzaderos debe devolver una lista con los números de
+        Este método tiene que devolver una lista con los números de
         barcos a los que disparar (el tamaño de la lista debe ser igual a la
         cantidad de lanzaderos)
         """
         pass
-
-
-class NaiveBarcos(Estrategia):
-
-    def siguiente_turno(self, tablero, lanzaderos, barcos):
-        """
-        Estrategia naive que devuelve el primer barco con vida que encuentra
-        """
-        for i, barco in barcos.items():
-            if barco['vida'] > 0:
-                return i
 
 
 class NaiveLanzaderos(Estrategia):
@@ -59,14 +45,12 @@ class NaiveLanzaderos(Estrategia):
 
 class Juego:
 
-    def __init__(self, tablero_file, lanzaderos, estrategia_barcos,
-                 estrategia_lanzaderos):
+    def __init__(self, tablero_file, lanzaderos, estrategia):
         self.tablero_file = tablero_file
         self.tablero = {}
         self.lanzaderos = lanzaderos
         self.barcos = {}
-        self.estrategia_barcos = estrategia_barcos
-        self.estrategia_lanzaderos = estrategia_lanzaderos
+        self.estrategia = estrategia
 
     def parsear_tablero(self):
         with open(self.tablero_file) as f:
@@ -85,6 +69,10 @@ class Juego:
         self.barcos[barco]['posicion'] += 1
         if self.barcos[barco]['posicion'] >= len(self.tablero[barco]):
             self.barcos[barco]['posicion'] = 0
+
+    def mover_barcos(self):
+        for barco in self.barcos:
+            self.mover_barco(barco)
 
     def disparar_misiles(self, misiles):
         for misil in misiles:
@@ -123,7 +111,7 @@ class Juego:
 
         while True:
             turno += 1
-            misiles_disparados = self.estrategia_lanzaderos.siguiente_turno(*args)
+            misiles_disparados = self.estrategia.siguiente_turno(*args)
             self.imprimir_misiles(misiles_disparados)
             self.disparar_misiles(misiles_disparados)
 
@@ -132,16 +120,13 @@ class Juego:
                 break
             puntos += barcos_vivos
 
-            barco_a_mover = self.estrategia_barcos.siguiente_turno(*args)
-            self.mover_barco(barco_a_mover)
+            self.mover_barcos()
             self.imprimir_turno(turno, puntos)
 
         self.imprimir_final(turno, puntos)
 
 
 if __name__ == '__main__':
-    estrategia_barcos = NaiveBarcos()
-    estrategia_lanzaderos = NaiveLanzaderos()
+    estrategia = NaiveLanzaderos()
     Juego(tablero_file='tablero', lanzaderos=2,
-          estrategia_barcos=estrategia_barcos,
-          estrategia_lanzaderos=estrategia_lanzaderos).jugar()
+          estrategia=estrategia).jugar()
