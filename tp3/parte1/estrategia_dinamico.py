@@ -143,5 +143,5 @@ if __name__ == '__main__':
     import sys
     sys.setrecursionlimit(10000)
     estrategia = EstrategiaDinamico2(verbose=False)
-    Juego(tablero_file='tablero2', lanzaderos=4,
+    Juego(tablero_file='tablero', lanzaderos=2,
           estrategia=estrategia).jugar()
