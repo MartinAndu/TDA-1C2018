@@ -3,7 +3,7 @@
 class Estrategia:
     """ Clase base para las estrategias. """
 
-    def siguiente_turno(self, tablero, lanzaderos, barcos):
+    def siguiente_turno(self, tablero, lanzaderos, barcos, turno):
         """
         Este método debe ejecutar un turno, basandose en los datos del tablero,
         lanzaderos y barcos actuales.
@@ -24,6 +24,8 @@ class Estrategia:
 
           {1: {'vida': 50, 'posicion': 0}}
 
+        - turno es el número del turno a hacer
+
         Este método tiene que devolver una lista con los números de
         barcos a los que disparar (el tamaño de la lista debe ser igual a la
         cantidad de lanzaderos)
@@ -33,7 +35,7 @@ class Estrategia:
 
 class NaiveLanzaderos(Estrategia):
 
-    def siguiente_turno(self, tablero, lanzaderos, barcos):
+    def siguiente_turno(self, tablero, lanzaderos, barcos, turno):
         """
         Estrategia naive que dispara todos los misiles al primer barco con vida
         que encuentra
@@ -91,7 +93,8 @@ class Juego:
         print('-' * 40)
 
     def imprimir_misiles(self, misiles_disparados):
-        mensajes = ['Lanzadero {} al barco {}'.format(i, k)
+        msg = 'Lanzadero {} al barco {} (-{} de vida)'
+        mensajes = [msg.format(i, k, self.tablero[k][self.barcos[k]['posicion']])
                     for i, k in enumerate(misiles_disparados)]
         print('Misiles lanzados: ' + ', '.join(mensajes))
         print('-' * 40)
@@ -111,7 +114,8 @@ class Juego:
 
         while True:
             turno += 1
-            misiles_disparados = self.estrategia.siguiente_turno(*args)
+            print('Comienzo del turno', turno)
+            misiles_disparados = self.estrategia.siguiente_turno(*args, turno=turno)
             self.imprimir_misiles(misiles_disparados)
             self.disparar_misiles(misiles_disparados)
 
