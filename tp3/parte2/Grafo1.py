@@ -91,12 +91,15 @@ class Grafo:
                 continue
 
             for v in ady:
-                if (visitados[v] == False) and (self.grafo_residual[(u, v)] > 0):
+                if (visitados[v] == False) and (self.grafo_residual[(u, v)] == 0):
                     cola.append(v)
                     padre[v] = u
                     visitados[v] = True
 
         return visitados[t]
+
+    def quitar_arista(self, arista):
+        del self.capacidades[arista]
 
     def obtener_flujo_maximo(self):
         return self.flujo_maximo(self.fuente, self.sumidero)
@@ -107,17 +110,18 @@ class Grafo:
             padre[v] = None
 
         maximo_flujo = 0
-
+        self.grafo_residual.clear()
+        
         for v in self.conexiones.keys():
             ady = self.conexiones[v]
             if ady is not None:
                 for u in ady:
                     if (u, v) in self.capacidades.keys():
                         self.grafo_residual[(u,v)] = self.capacidades[(u, v)]
-                        self.grafo_residual[(v, u)] = self.capacidades[(u, v)]
-                    else:
-                        self.grafo_residual[(u, v)] = self.capacidades[(v, u)]
-                        self.grafo_residual[(v, u)] = self.capacidades[(v, u)]
+                        #self.grafo_residual[(v, u)] = 0 #self.capacidades[(u, v)]
+                    elif (v, u) in self.capacidades.keys():
+                        self.grafo_residual[(u, v)] = 0 #self.capacidades[(v, u)]
+                        #self.grafo_residual[(v, u)] = self.capacidades[(v, u)]
 
         while self.bfs(fuente, sumidero, padre):
             c_f = float("Inf")
@@ -134,9 +138,9 @@ class Grafo:
             v = sumidero
             while v != fuente:
                 u = padre[v]
-                self.grafo_residual[(u, v)] -= c_f
-                self.grafo_residual[(v, u)] += c_f
+                #self.grafo_residual[(v, u)] += c_f
+                self.grafo_residual[(u, v)] += c_f # -=
                 v = padre[v]
 
         flujos_ordenados = sorted(self.grafo_residual.items(), key=operator.itemgetter(1))
-        return maximo_flujo
+        return flujos_ordenados[len(flujos_ordenados) - 1][0]

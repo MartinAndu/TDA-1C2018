@@ -1,12 +1,9 @@
 from Grafo1 import Grafo
 
-g = Grafo('redsecreta1.map')
+g = Grafo('redsecreta2.map')
 n = 2
 g.parsear_archivo()
-print(g.obtener_flujo_maximo())
-
-#lista = g.devolver_minimos(n)
-#salida = ""
-#for e in lista:
-#    salida += str(e)
-#print('Ubicaria ' + str(n) + ' personas a vigilar las aristas: ' + salida)
+for i in range(n):
+    arista_maxima = g.obtener_flujo_maximo()
+    print('Colocaria un vigilador en la arista ' + str(arista_maxima))
+    g.quitar_arista(arista_maxima)
