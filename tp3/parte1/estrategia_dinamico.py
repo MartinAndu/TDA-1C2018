@@ -52,11 +52,11 @@ def obtener_posicion(barcos, tablero):
     for i in sorted(barcos):
         barco = barcos[i]
         vida = max(barco['vida'], 0)
-        s.append(str(vida)  + 'v' + str(tablero[i][barco['posicion']]) + 'p')
+        s.append(str(vida) + 'v' + str(tablero[i][barco['posicion']]) + 'p')
     return '|'.join(s)
 
 
-class EstrategiaDinamico2(Estrategia):
+class EstrategiaDinamico(Estrategia):
 
     m = None
     res = None
@@ -74,7 +74,7 @@ class EstrategiaDinamico2(Estrategia):
             return self.m[posicion][disparos_hechos]
 
         self.callcount += 1
-        if self.callcount > 2000000:
+        if self.callcount > 3000000:
             print(posicion)
             raise Exception('El tablero es demasiado grande para mi =(')
 
@@ -90,7 +90,6 @@ class EstrategiaDinamico2(Estrategia):
             self.res[posicion] = disparos_hechos
             return p
         else:
-            # Problema: si o si tengo que basarme en movidas anteriores
             resolver_turno(disparos_hechos, barcos, tablero)
             nueva_posicion = obtener_posicion(barcos, tablero)
             pos[disparos_hechos] = maximo
@@ -105,8 +104,6 @@ class EstrategiaDinamico2(Estrategia):
                     self.res[nueva_posicion] = disparos
                     if k == 0:
                         break
-            if self.verbose:
-                print('pos ', posicion, ' puntos despues de disparar', p, ' minimo recursivo', minimo)
         return self.m[posicion][disparos_hechos]
 
     def construir_matriz(self, tablero, lanzaderos, barcos):
@@ -120,8 +117,7 @@ class EstrategiaDinamico2(Estrategia):
         minimo = float('inf')
         posicion_inicial = obtener_posicion(barcos, tablero)
         for disparos in disparos_posibles:
-            k = self.optimo_recursivo(posicion_inicial, disparos, disparos_posibles,
-                                      tablero, barcos)
+            k = self.optimo_recursivo(posicion_inicial, disparos, disparos_posibles, tablero, barcos)
             if k < minimo:
                 minimo = k
                 self.res[posicion_inicial] = disparos
@@ -129,7 +125,7 @@ class EstrategiaDinamico2(Estrategia):
     def siguiente_turno(self, tablero, lanzaderos, barcos, turno):
         if not self.res:
             self.construir_matriz(tablero, lanzaderos, barcos)
-            print('tamaño del resultazo', len(self.res))
+            print('Dinámico: tamaño de la matriz', len(self.res))
 
         posicion = obtener_posicion(barcos, tablero)
         disparos = self.res[posicion]
@@ -142,6 +138,6 @@ class EstrategiaDinamico2(Estrategia):
 if __name__ == '__main__':
     import sys
     sys.setrecursionlimit(10000)
-    estrategia = EstrategiaDinamico2(verbose=False)
-    Juego(tablero_file='tablero', lanzaderos=2,
+    estrategia = EstrategiaDinamico(verbose=False)
+    Juego(tablero_file='tablero2', lanzaderos=3,
           estrategia=estrategia).jugar()
