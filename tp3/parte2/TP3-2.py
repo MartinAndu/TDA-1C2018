@@ -1,4 +1,4 @@
-from Grafo1 import Grafo
+from Grafo import Grafo
 
 g = Grafo('redsecreta2.map')
 n = 2
