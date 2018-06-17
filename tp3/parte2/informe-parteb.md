@@ -10,6 +10,7 @@ El pseudocódigo del algoritmo es el siguiente:
 Para el pseudocódigo definimos:
 $C(u,v)$ como capacidad de la arista que une los vértices $u$ y $v$ en el grafo original.
 $G_f(u,v)$ como capacidad de la arista que une los vértices $u$ y $v$ en el grafo residual.
+$flujo_maximo_arista(u,v)$ tiene cuanto flujo pasa por esa arista
 ```
 para cada arista (u,v) \in G:
     G_f(u,v) = 0
@@ -18,10 +19,11 @@ para cada arista (u,v) \in G:
 mientras \exists un camino $p$ desde la fuente al sumidero en el grafo residual:
     c_f := $min\{G_f(u,v) : (u, v) \in $p$\}$
     para cada arista (u,v) en p:
-        G_f(u, v) += c_f
-        G_f(v, u) = -G_f(u,v)
+        G_f(u, v) -= c_f
+        G_f(v, u) += c_f
+        flujo_maximo_arista(v,u) = G_f(v,u)
 
-ordenar de menor a mayor los valores de G_f \forall (u,v) 
+ordenar de menor a mayor los valores de flujo_maximo_arista \forall (u,v) 
 tomar el ultimo
 ```
 
