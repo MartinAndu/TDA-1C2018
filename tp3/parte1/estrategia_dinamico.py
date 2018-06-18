@@ -136,8 +136,6 @@ class EstrategiaDinamico(Estrategia):
 
 
 if __name__ == '__main__':
-    import sys
-    sys.setrecursionlimit(10000)
     estrategia = EstrategiaDinamico(verbose=False)
-    Juego(tablero_file='tablero2', lanzaderos=3,
+    Juego(tablero_file='tablero3', lanzaderos=3,
           estrategia=estrategia).jugar()
