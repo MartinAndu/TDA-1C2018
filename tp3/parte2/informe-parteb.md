@@ -7,21 +7,21 @@
 
 Son agentes secretos de la organización C.O.N.T.R.O.L y reciben una información anónima que los pone en alerta: La organización K.A.O.S planea sabotear la red secreta de transporte de información. Hace unos días se reportó el robo de una copia del mapa maestro de la red. Dan por supuesto que el robo fue de sus rivales y que ellos conocen las debilidades de su red. Siendo que únicamente tienen personal suficiente para vigilar 2 ejes de su red, que únicamente se pueden sabotear ejes (y no vertices) y que los saboteadores quieren hacer el máximo daño posible:
 
-    Diseñe un algoritmo genérico que funcione con cualquier tipo de red que determine qué ejes vigilar. Preséntelo con un pseudocódigo, explique su funcionamiento y si el mismo además es óptimo.
-    Analice la complejidad del mismo. De igual manera analice si utiliza alguna reducción.
-    Programe el algoritmo.
-    Si es necesario programe el algoritmo para determinar el flujo máximo. Utilícelo para calcular el de la red antes y después de los posibles sabotajes.
-    En una situación real existirán varias fuentes y varios sumideros. Explique y analice una forma de resolver el mismo problema en este caso.
+ - Diseñe un algoritmo genérico que funcione con cualquier tipo de red que determine qué ejes vigilar. Preséntelo con un pseudocódigo, explique su funcionamiento y si el mismo además es óptimo.
+ - Analice la complejidad del mismo. De igual manera analice si utiliza alguna reducción.
+ - Programe el algoritmo.
+ - Si es necesario programe el algoritmo para determinar el flujo máximo. Utilícelo para calcular el de la red antes y después de los posibles sabotajes.
+ - En una situación real existirán varias fuentes y varios sumideros. Explique y analice una forma de resolver el mismo problema en este caso.
 
 Red Secreta:
 
 El mapa de la red se debe obtener de un archivo llamado “redsecreta.map” con el siguiente formato:
 
-    Cada línea del archivo corresponde a un eje de la red que une 2 vértices y su capacidad
-    Los ejes están etiquetadas por números enteros
-    La capacidad son números enteros.
-    La fuente estará etiquetada como el número 0 (cero)
-    El sumidero estará etiquetado como el número 1 (uno)
+ - Cada línea del archivo corresponde a un eje de la red que une 2 vértices y su capacidad
+ - Los ejes están etiquetadas por números enteros
+ - La capacidad son números enteros.
+ - La fuente estará etiquetada como el número 0 (cero)
+ - El sumidero estará etiquetado como el número 1 (uno)
 
 
 ## Análisis del problema
