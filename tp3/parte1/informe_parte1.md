@@ -63,16 +63,16 @@ A la finalización debe indicar
 
 Se tomaron los siguientes supuestos:
 
- - En un turno, primero disparan los lanzaderos, luego se mueven los barcos.
- - Solo hay que desarrollar una estrategia para los disparos de los lanzaderos. Los barcos siempre avanzan un paso cada turno.
+ - En un turno, primero disparan las lanzaderas, luego se mueven los barcos.
+ - Solo hay que desarrollar una estrategia para los disparos de las lanzaderas. Los barcos siempre avanzan un paso cada turno.
 
 ### Planteo del juego
 
-La resolución de nuestro juego se puede encontrar en el archivo `batalla_naval.py` que define la lógica del juego (definida en la clase `Juego` )y las clases y estructuras de datos que se van a utilizar. El juego necesita recebir como parametros la ruta del archivo con información sobre el tablero, la cantidad de lanzaderos a utilizar y una instancia de `Estrategia`. `Estrategia` es una clase de la que se espera que esté definido el método `siguiente_turno`, que dado el tablero, cantidad de lanzaderos, información sobre barcos y número de turno actual devuelva una lista de barcos, a los que el juego deberá disparar en ese turno.
+La resolución de nuestro juego se puede encontrar en el archivo `batalla_naval.py` que define la lógica del juego (definida en la clase `Juego` )y las clases y estructuras de datos que se van a utilizar. El juego necesita recibir como parámetros la ruta del archivo con información sobre el tablero, la cantidad de lanzaderas a utilizar y una instancia de `Estrategia`. `Estrategia` es una clase de la que se espera que esté definido el método `siguiente_turno`, que dado el tablero, cantidad de lanzaderas, información sobre barcos y número de turno actual devuelva una lista de barcos, a los que el juego deberá disparar en ese turno.
 
 La lógica principal del juego es la siguiente:
 
-1) Se parsea el archivo con el tablero específicado, los valores se guardan en estructuras internas que se van a explicar más adelante.
+1) Se parsea el archivo con el tablero especificado, los valores se guardan en estructuras internas que se van a explicar más adelante.
 2) Se entra al loop principal, en el que:
 2.1) Se le pide a la estrategia a qué barcos disparar en el turno actual
 2.2) Se aplica a los barcos el daño de los misiles disparados
@@ -81,7 +81,7 @@ La lógica principal del juego es la siguiente:
 
 ### Estructuras de datos
 
-A continuación se explicarán las estructuras de datos utilizadas. Estas estructuras van a ser usadas por el juego, tanto para mantener la información sobre el estado del juego, como para proveerselas a la estrategia. La estrategia a su vez tendrá que usarlas para calcular los barcos a impactar en un turno.
+A continuación se explicarán las estructuras de datos utilizadas. Estas estructuras van a ser usadas por el juego, tanto para mantener la información sobre el estado del juego, como para proveérselas a la estrategia. La estrategia a su vez tendrá que usarlas para calcular los barcos a impactar en un turno.
 
 Supongamos que el contenido del archivo de tablero es el del ejemplo del enunciado:
 
@@ -108,7 +108,7 @@ La información de los barcos se va a guardar en un diccionario `barcos`, que co
 }
 ```
 
-Para dar un ejemplo, supongamos que tenemos 2 lanzaderos. En el primer turno, el primer lanzadero le dispara al barco 0, y el segundo al barco 1. Al principio del turno 2, el diccionario de barcos tendrá el siguiente contenido:
+Para dar un ejemplo, supongamos que tenemos 2 lanzaderas. En el primer turno, la primer lanzadera le dispara al barco 0, y el segundo al barco 1. Al principio del turno 2, el diccionario de barcos tendrá el siguiente contenido:
 
 ```python
 {
@@ -122,15 +122,75 @@ Para dar un ejemplo, supongamos que tenemos 2 lanzaderos. En el primer turno, el
 
 ### Algoritmo elegido
 
+Como base para la estrategia Greedy se utilizó la siguiente idea: en cada turno se quiere hundir la mayor cantidad de barcos, para minimizar los puntos logrados por el contrincante. Si no se puede hundir más barcos, pero quedan disparos a hacer, se selecciona el disparo que infiere mayor daño.
+
+En pseudocódigo la solución elegida se puede describir de la siguiente forma:
+
+```
+def siguiente_turno(tablero, cantidad_lanzaderas, barcos):
+    disparos = []
+    disparos_pendientes = cantidad_lanzaderas
+
+    while disparos_pendientes:
+
+        barco_a_hundir = null
+        barco_a_disparar = null
+        for barco in barcos:
+            if barco.vida < 0:
+                continue
+            disparos_necesarios = barco.vida / danio_potencial(barco)
+            if disparos_necesarios < disparos_pendientes:
+                if es_mejor_hundir(barco, barco_a_hundir):
+                    barco_a_hundir := barco
+            if es_mejor_disparar(barco, barco_a_disparar):
+                barco_a_disparar := barco
+
+        if barco_a_hundir:
+            numero_de_disparos := aplicar_disparos(barco_a_hundir)
+            disparos_pendientes := disparos_pendientes + disparos_pendientes
+        elif barco_a_disparar:
+            aplicar_disparos(barco_a_disparar)
+            disparos_pendientes := disparos_pendientes - 1
+        else:
+            break
+
+    return risparos
+```
+
+En el pseudocódigo se hace uso de algunas funciones auxiliares, que no están presentes en el código real, y se usan para simplificar la lógica del pseudocódigo. Son las siguientes:
+
+ - `es_mejor_hundir(barco, barco_a_hundir)`: toma la decisión de si es mejor hundir `barco` que `barco_a_hundir`, actualmente seleccionado para hundir. En esta decisión se decide por `barco` si:
+   * `barco_a_hundir` no está definido
+   * Si la cantidad de disparos que toma hundir `barco` es menor que `barco_a_hundir`
+   * Si la cantidad de disparos es la misma, pero el daño total es mayor.
+
+ - `es_mejor_disparar(barco, barco_a_disparar)`: decide si es mejor dispararle al `barco` que al `barco_a_disparar`, actualmente seleccionado para disparar. Se decide por `barco` si `barco_a_disparar` no está definido, o si el daño que se le va a impactar es menor.
+
+ - `aplicar_disparos(barco_a_disparar)` es la función que le quita vida a los barcos, antes de volver a realizar el loop, y devuelve la cantidad de disparos que tomó. En el código real se mantiene una estructura con la vida actual de los barcos, y se actualiza en este momento.
+
+Un chequeo más que se hace es si el daño potencial a un barco es igual 0, en cuyo caso se ignora ese barco. Si al final de una iteración externa no se eligió ningún barco para hundir, ni para disparar, es porque o bien no quedan más barcos con vida, o solo es posible hacer 0 daño con el disparo. En ambos casos el resto de los disparos se hace al barco 0 (ya que no importa a qué barcos disparar).
+
+
+### Análisis de complejidad
+
+Todas las estructuras usadas tienen costo de acceso y de actualización de $O(1)$, asique no van a alterar el orden total. Supongamos que tenemos $n$ barcos y $m$ lanzaderas.
+
+El loop principal se hace a lo sumo $m$ veces, ya que en cada iteración se hace al menos un disparo (como es visible en el código). En cada iteración se recorren a lo sumo $n$ barcos y se hace una serie de operaciones de acceso y/o actualización. Entonces, el orden total del algoritmo es:
+
+$$
+O(nm)
+$$
+
+<!-- ### ¿Cuando es el óptimo? -->
 
 
 ## Estrategia Dinámica
 
 ### Resolución teórica
 
-Para la estrategia dinámica se plantearon varios algoritmos. El que mejores resultados dió tiene la siguiente idea como base: dada la posición actual de los barcos, el mejor conjunto de disparos es el que minimiza la cantidad de puntos logrados en la posición actual y el de los disparos consecutivos (alterando la posición por los disparos elegidos). Entonces, los disparos elegidos por este algoritmo van a ser los óptimos, porque serán los que minimizan exactamente lo pedido en el enunciado.
+Para la estrategia dinámica se plantearon varios algoritmos. El que mejores resultados dio tiene la siguiente idea como base: dada la posición actual de los barcos, el mejor conjunto de disparos es el que minimiza la cantidad de puntos logrados en la posición actual y el de los disparos consecutivos (alterando la posición por los disparos elegidos). Entonces, los disparos elegidos por este algoritmo van a ser los óptimos, porque serán los que minimizan exactamente lo pedido en el enunciado.
 
-Esta idea se puede plantear de la siguiente forma: supongamos que $n$ es nuestra posición actual, $d$ es un conjunto de disparos (con tantos elementos, cuantos lanzaderos tengamos), y $f(n, d)$ es una función que dada la posición $n$ y disparos $d$ cuantos puntos va a obtener el jugador del equipo contrario. Supongamos que $D$ son todos los diparos que podemos hacer y $n+1$ es la posición en la que vamos a quedar si impactamos disparos $d_i$. Podemos plantear la siguiente recurrencia:
+Esta idea se puede plantear de la siguiente forma: supongamos que $n$ es nuestra posición actual, $d$ es un conjunto de disparos (con tantos elementos, cuantas lanzaderas tengamos), y $f(n, d)$ es una función que dada la posición $n$ y disparos $d$ cuantos puntos va a obtener el jugador del equipo contrario. Supongamos que $D$ son todos los disparos que podemos hacer y $n+1$ es la posición en la que vamos a quedar si impactamos disparos $d_i$. Podemos plantear la siguiente recurrencia:
 
 $$
 OPT(n, d) = f(n, d) + min(OPT(n+1, d_i) \forall d_i \in D)
@@ -151,11 +211,11 @@ Hay una serie de pasos que queda definir antes de pasar el planteo teórico a c�
 
 1) **¿Qué es la posición?**
 
-La posición no puede ser simplemente la posición actual de cada barco, depende también de vida de cada barco en cada momento dado. Se va a necesitar una función (llamemosla `obtener_posicion`) que dado el tablero y el estado actual de los barcos, devuelva una estructura que describa univocamente la posición de los barcos. En nuestro código esa función devuelve una cadena de texto que por cada barco tiene su vida y su posición actual. Esto nos va a permitir hacer uso de *memoización* en nuestro algoritmo dinámico, porque un barco puede estar en una posición particular con una vida particular más de una vez durante el juego, pero el resoltado óptimo va a ser el mismo en cada caso.
+La posición no puede ser simplemente la posición actual de cada barco, depende también de vida de cada barco en cada momento dado. Se va a necesitar una función (llamémosla `obtener_posicion`) que dado el tablero y el estado actual de los barcos, devuelva una estructura que describa unívocamente la posición de los barcos. En nuestro código esa función devuelve una cadena de texto que por cada barco tiene su vida y su posición actual. Esto nos va a permitir hacer uso de *memoización* en nuestro algoritmo dinámico, porque un barco puede estar en una posición particular con una vida particular más de una vez durante el juego, pero el resultado óptimo va a ser el mismo en cada caso.
 
 2) **¿Cuál es el conjunto de disparos?**
 
-El conjunto de disparos posibles está definido por la cantidad de barcos y la cantidad de lanzaderos. Es más correcto ver ese conjunto como *conjunto de impactos*, porque si un barco es impactado por un disparo, no tiene relevancia le disparó el lanzadero 1 o 2. Por ende el disparo `(barco1, barco2)` es exactamente igual a `(barco2, barco1)` y los queremos tratar como uno solo. En el código, ttenemos una función `posibles_disparos` que devuelve los disparos posibles sin ese tipo de repetidos.
+El conjunto de disparos posibles está definido por la cantidad de barcos y la cantidad de lanzaderas. Es más correcto ver ese conjunto como *conjunto de impactos*, porque si un barco es impactado por un disparo, no tiene relevancia si le disparó la lanzadera 1 o 2. Por ende el disparo `(barco1, barco2)` es exactamente igual a `(barco2, barco1)` y los queremos tratar como uno solo. En el código, tenemos una función `posibles_disparos` que devuelve los disparos posibles sin ese tipo de repetidos.
 
 3) **¿Cual es la función `f`?**
 
@@ -164,7 +224,7 @@ La función `f` del planteo teórico es la función, cuyo resultado se quiere mi
 El algoritmo práctico se puede ver en el archivo `estrategia_dinamico.py`, clase `EstrategiaDinamico`. Su funcionamiento se puede resumir en el siguiente pseudocódigo:
 
 ```
-def siguiente_turno(tablero, lanzaderos, barcos):
+def siguiente_turno(tablero, cantidad_lanzaderas, barcos):
 
     posicion = obtener_posicion(tablero, barcos)
 
@@ -214,9 +274,9 @@ La función `resolver_turno` aplica los disparos en cuestión, y luego mueve los
 
 ### Análisis de complejidad
 
-Supongamos que en nuestro juego participan *n* barcos y *m* lanzaderos. La cantidad de disparos a hacer es igual a la cantidad de lanzaderos (*m*). Todos los datos se guardan en estructuras con tiempo de acceso $O(1)$, asique vamos a despreciar los accesos en este análsis. Por cada llamado recursivo se hace lo siguiente:
+Supongamos que en nuestro juego participan *n* barcos y *m* lanzaderas. La cantidad de disparos a hacer es igual a la cantidad de lanzaderas (*m*). Todos los datos se guardan en estructuras con tiempo de acceso $O(1)$, asique vamos a despreciar los accesos en este análisis. Por cada llamado recursivo se hace lo siguiente:
 
- - Llamado a `f` que implica recorrer una vez barcos, y una vez lanzaderos: $n + m$
+ - Llamado a `f` que implica recorrer una vez barcos, y una vez lanzaderas: $n + m$
  - Copia de barcos: $n$
  - Llamado a `resolver_turno`, que recorre disparos y luego recorre barcos: $n + m$
  - `obtener_posicion` recorre una vez barcos: $n$
@@ -229,7 +289,7 @@ $$
 D = {n + m -1 \choose m}
 $$
 
-Lo que queda ver es cuántas posiciones va a recorrer el algoritmo. Lamentablemente, no encontramos una cota exacta. Una cota aproximada superior se puede hallar calculando la cantidad de todas las posiciones posibles, llamemos ese número $P$. Conocemos los posibles daños que se pueden inferir a un barco. Podemos estar seguros de que la cantidad de vida que puede llegar a tener un barco en cualquier posición es un múltiplo del *máximo común divisor (mcd)*, entre los posibles daños que se pueden impactar a ese barco. Ese número siempre va a ser menor que la vida inicial del barco $V_M$. Supongamos que los daños posibles son el conjunto $Q$, podemos calcular la número de diferentes valores de vida del barco como $V_M/mcd(Q)$. Ese valor lo tenemos que múltiplicar por la cantidad de posiciones posibles del barco, que es igual a $|Q|$. Finalmente tenemos que calcular ese número por cada barco $i$:
+Lo que queda ver es cuántas posiciones va a recorrer el algoritmo. Lamentablemente, no encontramos una cota exacta. Una cota aproximada superior se puede hallar calculando la cantidad de todas las posiciones posibles, llamemos ese número $P$. Conocemos los posibles daños que se pueden inferir a un barco. Podemos estar seguros de que la cantidad de vida que puede llegar a tener un barco en cualquier posición es un múltiplo del *máximo común divisor (mcd)*, entre los posibles daños que se pueden impactar a ese barco. Ese número siempre va a ser menor que la vida inicial del barco $V_M$. Supongamos que los daños posibles son el conjunto $Q$, podemos calcular la número de diferentes valores de vida del barco como $V_M/mcd(Q)$. Ese valor lo tenemos que multiplicar por la cantidad de posiciones posibles del barco, que es igual a $|Q|$. Finalmente tenemos que calcular ese número por cada barco $i$:
 
 $$
 P = \sum\limits_{i=1}^n {V_M}_i*|Q_i|/mcd(Q_i)
@@ -253,4 +313,26 @@ El orden calculado en la sección anterior crece extremadamente rápido y si el 
 
  - Todas las estructuras elegidas tiene costo de acceso O(1).
 
-Si bien el resultado de este algoritmo es el óptimo, y en todos los casos performa igual o mejor que su contraparte greedy, el orden del algoritmo es muy alto, y solo es aplicable para tableros no muy grandes. Por ejemplo, para la definición del tablero del archivo `tablero2`, que tiene 4 barcos, con 5 posiciones posibles cada uno, y un *mcd ~ 10*, usando 3 lanzaderos el algoritmo tarda unos 5 segundos en la máquina que se usó para desarrollo.
+Si bien el resultado de este algoritmo es el óptimo, y en todos los casos performa igual o mejor que su contraparte greedy, el orden del algoritmo es muy alto, y solo es aplicable para tableros no muy grandes. Por ejemplo, para la definición del tablero del archivo `tablero2`, que tiene 4 barcos, con 5 posiciones posibles cada uno, y un *mcd ~ 10*, usando 3 lanzaderas el algoritmo tarda unos 5 segundos en la máquina que se usó para desarrollo.
+
+
+## Algoritmo de posicionamiento
+
+El algoritmo para la estrategia dinámica también se puede usar para seleccionar la mejor posición. Se pueden recorrer las posiciones iniciales posibles, y consultar usando el mismo algoritmo.
+
+El pseudocódigo sería el siguiente, suponiendo que la función `optimo_recursivo` es la explicada en la estrategia dinámica:
+
+```
+def mejor_posicion(tablero, cantidad_lanzaderas, barcos):
+    minimo := 0
+    mejor_posicion := null
+    for posicion in posiciones_posibles:
+        for disparo in disparos_posibles:
+            k: = optimo_recursivo(posicion, disparos, tablero, barcos)
+            if k > minimo:
+                minimo := k
+                mejor_posicion = posicion
+    return mejor_posicion
+```
+
+Como `optimo_recursivo` hace uso de memoización internamente, el orden no debería crecer aún más, asique el algoritmo de mejor_posición debería tener el mismo orden.
