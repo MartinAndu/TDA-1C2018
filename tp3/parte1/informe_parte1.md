@@ -1,3 +1,4 @@
+\newpage
 
 # Parte 1: Juego de batalla naval
 
@@ -160,9 +161,9 @@ def siguiente_turno(tablero, cantidad_lanzaderas, barcos):
 En el pseudocódigo se hace uso de algunas funciones auxiliares, que no están presentes en el código real, y se usan para simplificar la lógica del pseudocódigo. Son las siguientes:
 
  - `es_mejor_hundir(barco, barco_a_hundir)`: toma la decisión de si es mejor hundir `barco` que `barco_a_hundir`, actualmente seleccionado para hundir. En esta decisión se decide por `barco` si:
-   * `barco_a_hundir` no está definido
-   * Si la cantidad de disparos que toma hundir `barco` es menor que `barco_a_hundir`
-   * Si la cantidad de disparos es la misma, pero el daño total es mayor.
+    * `barco_a_hundir` no está definido
+    * Si la cantidad de disparos que toma hundir `barco` es menor que `barco_a_hundir`
+    * Si la cantidad de disparos es la misma, pero el daño total es mayor.
 
  - `es_mejor_disparar(barco, barco_a_disparar)`: decide si es mejor dispararle al `barco` que al `barco_a_disparar`, actualmente seleccionado para disparar. Se decide por `barco` si `barco_a_disparar` no está definido, o si el daño que se le va a impactar es menor.
 
@@ -201,7 +202,7 @@ Necesitamos agregar una condición de corte: si un set de disparos resulta en qu
 La llamada inicial (la del primer turno) de esta forma sería:
 
 $$
-primer_turno(n) = min(OPT(n, d_i) \forall d_i \in D)
+PrimerTurno(n) = min(OPT(n, d_i) \forall d_i \in D)
 $$
 
 
