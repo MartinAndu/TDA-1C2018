@@ -28,7 +28,7 @@ tomar el ultimo
 ```
 
 #### Análisis de complejidad
-Para este problema se utilizó una reducción utilizando un algoritmo ya conocido que es el de Ford-Fulkerson. La complejidad de este algoritmo es $O(Ef)$, donde $E$ es la cantidad de aristas y $f$ es el flujo máximo en el grafo. Esta justificación se da porque cada camino de aumento puede ser encontrada en un tiempo $O(E)$ e incrementa el flujo por una cantidad entera de a lo sumo $1$ con una cota máxima de $f$.
+Para este problema se utilizó una reducción utilizando un algoritmo ya conocido que es el de Ford-Fulkerson. La complejidad de este algoritmo es $O(Ef)$, donde $E$ es la cantidad de aristas y $f$ es el flujo máximo en el grafo. Esta justificación se da porque cada camino de aumento puede ser encontrada en un tiempo $O(E)$ e incrementa el flujo por una cantidad entera de a lo sumo $1$ con una cota máxima de $f$. Los caminos de aumento busca caminos de fuente a sumidero que sean acíclicos
 Existe una variación de Ford-Fulkerson que garantiza terminación y un tiempo de ejecución independientemente del valor del máximo flujo. Este algoritmo se llama Algoritmo de Edmonds-Karp. La complejidad de dicho algoritmo es $O(VE^2)$ donde $V$ es la cantidad de vértices y $E$ la cantidad de aristas. En este trabajo se utilizó esta variante.
 
 #### Múltiples fuentes y múltiples sumideros
