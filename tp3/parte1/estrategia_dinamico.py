@@ -78,7 +78,6 @@ class EstrategiaDinamico(Estrategia):
             print(posicion)
             raise Exception('El tablero es demasiado grande para mi =(')
 
-        tablero = tablero.copy()
         barcos = copiar_barcos(barcos)
         maximo = float('inf')
         p, danio = resultado_de_disparos(disparos_hechos, barcos, tablero)
@@ -137,5 +136,5 @@ class EstrategiaDinamico(Estrategia):
 
 if __name__ == '__main__':
     estrategia = EstrategiaDinamico(verbose=False)
-    Juego(tablero_file='tablero3', lanzaderos=3,
+    Juego(tablero_file='tablero2', lanzaderos=3,
           estrategia=estrategia).jugar()
