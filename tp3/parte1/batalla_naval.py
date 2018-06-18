@@ -93,7 +93,7 @@ class Juego:
         print('-' * 40)
 
     def imprimir_misiles(self, misiles_disparados):
-        msg = 'Lanzadero {} al barco {} (-{} de vida)'
+        msg = 'Lanzadera {} al barco {} (-{} de vida)'
         mensajes = [msg.format(i, k, self.tablero[k][self.barcos[k]['posicion']])
                     for i, k in enumerate(misiles_disparados)]
         print('Misiles lanzados: ' + ', '.join(mensajes))

@@ -182,8 +182,15 @@ $$
 O(nm)
 $$
 
-<!-- ### ¿Cuando es el óptimo? -->
+### ¿Cuando es óptimo?
 
+Hay diversas condiciones, bajo las que este algoritmo puede ser el óptimo. Algunas de las que encontramos son:
+
+ - Hay un solo barco (cualquier algoritmo que dispare a un barco con vidas es óptimo en este caso), o hay una sola posición posible para cada barco.
+
+ - El daño a impactar a cada barco es el mismo en cada turno, y la vida inicial es la misma. En este caso el algoritmo siempre va a hundir los barcos uno por uno, en orden.
+
+ - Los daños posibles están repartidos de tal manera que en cada turno el algoritmo greedy siempre encuentra barcos a hundir (todos los disparos se utilizan para hundir barcos). En este caso, como el algoritmo siempre elige el barco a hundir en menos disparos, esta acción es la óptima.
 
 ## Estrategia Dinámica
 
@@ -301,6 +308,8 @@ Juntando esas cuentas, podemos estar seguros de que el orden de nuestro algoritm
 $$
 \sum\limits_{i=1}^n {V_M}_i*|Q_i|/mcd(Q_i) * {n + m -1 \choose m} * (n + m)
 $$
+
+Este es el orden de cálculo de los disparos óptimos a partir de una posición inicial. Una vez calculado, cada turno se resuelve en $O(1)$.
 
 ### Optimizaciones
 
