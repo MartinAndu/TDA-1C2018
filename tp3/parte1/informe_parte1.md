@@ -155,7 +155,7 @@ def siguiente_turno(tablero, cantidad_lanzaderas, barcos):
         else:
             break
 
-    return risparos
+    return disparos
 ```
 
 En el pseudocódigo se hace uso de algunas funciones auxiliares, que no están presentes en el código real, y se usan para simplificar la lógica del pseudocódigo. Son las siguientes:
