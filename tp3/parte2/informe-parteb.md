@@ -12,23 +12,24 @@ $C(u,v)$ como capacidad de la arista que une los vértices $u$ y $v$ en el grafo
 $G_f(u,v)$ como capacidad de la arista que une los vértices $u$ y $v$ en el grafo residual.
 $flujo_maximo_arista(u,v)$ tiene cuanto flujo pasa por esa arista
 ```
-para cada arista (u,v) \in G:
+para cada arista (u,v) de G:
     G_f(u,v) = 0
     G_f(v,u) = 0
 
-mientras \exists un camino $p$ desde la fuente al sumidero en el grafo residual:
-    c_f := $min\{G_f(u,v) : (u, v) \in $p$\}$
-    para cada arista (u,v) en p:
+mientras exista un camino p desde la fuente al sumidero en el grafo residual:
+    c_f := se toma minimo {G_f(u,v) : (u, v) en camino p}
+    para cada arista (u,v) de p:
         G_f(u, v) -= c_f
         G_f(v, u) += c_f
         flujo_maximo_arista(v,u) = G_f(v,u)
 
-ordenar de menor a mayor los valores de flujo_maximo_arista \forall (u,v) 
+ordenar de menor a mayor los valores de flujo_maximo_arista para todo (u,v) 
 tomar el ultimo
 ```
 
 #### Análisis de complejidad
-Para este problema se utilizó una reducción utilizando un algoritmo ya conocido que es el de Ford-Fulkerson. La complejidad de este algoritmo es $O(Ef)$, donde $E$ es la cantidad de aristas y $f$ es el flujo máximo en el grafo. Esta justificación se da porque cada camino de aumento puede ser encontrada en un tiempo $O(E)$ e incrementa el flujo por una cantidad entera de a lo sumo $1$ con una cota máxima de $f$. Los caminos de aumento busca caminos de fuente a sumidero que sean acíclicos
+Para este problema se utilizó una reducción utilizando un algoritmo ya conocido que es el de Ford-Fulkerson. La complejidad de este algoritmo es $O(Ef)$, donde $E$ es la cantidad de aristas y $f$ es el flujo máximo en el grafo. Esta justificación se da porque cada camino de aumento puede ser encontrada en un tiempo $O(E)$ e incrementa el flujo por una cantidad entera de a lo sumo $1$ con una cota máxima de $f$. 
+Los caminos de aumento busca caminos de fuente a sumidero que sean acíclicos. La complejidad del algoritmo de caminos de aumento puede ser muy mala si se eligen mal los caminos, puede ser del orden de la capacidad máxima, la cual puede ser exponencial en el tamaño de la entrada.
 Existe una variación de Ford-Fulkerson que garantiza terminación y un tiempo de ejecución independientemente del valor del máximo flujo. Este algoritmo se llama Algoritmo de Edmonds-Karp. La complejidad de dicho algoritmo es $O(VE^2)$ donde $V$ es la cantidad de vértices y $E$ la cantidad de aristas. En este trabajo se utilizó esta variante.
 
 #### Múltiples fuentes y múltiples sumideros
